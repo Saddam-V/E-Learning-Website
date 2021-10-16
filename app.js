@@ -135,6 +135,24 @@ app.post('/uploadcourse',(req,res,next)=>{
 
   });
 
+  app.post('/removecourse',(req,res,next)=>{
+    y=fs.readFileSync('usrnmfac.txt');
+    const usrobj = req.body
+    let output = {'name': `${y}`}
+  
+    console.log(usrobj.cat)
+
+    course.deleteOne({ coursename: usrobj.coursename,
+      facultyid: y }, function (err) {
+      if (err) return handleError(err);
+      // deleted at most one tank document
+      console.log("Error")
+    });
+  
+    res.status(200).render('faculty.pug',output);
+  
+    });
+
 app.post('/uploadcourseimg',uploadcrs.single('filename1'),(req,res,next)=>{
   var crspic=req.file.path;
   y=fs.readFileSync('usrnmfac.txt');
