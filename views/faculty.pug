@@ -121,9 +121,25 @@
         <div class="col-6" id="addcourse">
             <h2 class="signh1">Add Course :-</h2>
             <form id="chngprof" action="/uploadcourse" method="post">
-                    <input type="file" id="myFile" name="filename">
                     <label for="crsname" class="lbl">Course Name</label>
                     <input class="usrinput" type="text" name="coursename" id="usrnmlogin" placeholder="Enter Course Name">
+                    <div class="dropdown">
+                        <button class="dropbtn">Category</button>
+                        <div class="dropdown-content">
+                            <input type="radio" id="ece" name="cat" value="electronics">
+                            <label for="html">Electronics</label><br>
+                            <input type="radio" id="cs" name="cat" value="computer">
+                            <label for="css">Computer</label><br>
+                            <input type="radio" id="sci" name="cat" value="science">
+                            <label for="javascript">Science</label><br><br>
+                            <input type="radio" id="maths" name="cat" value="mathematics">
+                            <label for="javascript">Mathematics</label><br><br>
+                            <input type="radio" id="lang" name="cat" value="language">
+                            <label for="javascript">Language</label><br><br>
+                            <input type="radio" id="oth" name="cat" value="other">
+                            <label for="javascript">Other</label><br><br>
+                        </div>
+                    </div>
                     <label for="coursedtl" class="lbl">Course Details</label>
                     <textarea class="usrinput" name="coursedes" rows="4" cols="50"></textarea>
                     <button class="signinbutton">Add</button>

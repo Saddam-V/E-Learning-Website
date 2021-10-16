@@ -93,6 +93,7 @@ const LoginSchemafaculty = new mongoose.Schema({
 const LoginSchemacourses = new mongoose.Schema({
   facultyid: String,
   coursename: String,
+  coursecat: String,
   coursedes: String,
   coursepic : String,
 });
@@ -117,8 +118,11 @@ app.post('/uploadcourse',(req,res,next)=>{
   const usrobj = req.body
   let output = {'name': `${y}`}
 
+  console.log(usrobj.cat)
+
   Course = new course({ facultyid: y,
     coursename: usrobj.coursename,
+    coursecat: usrobj.cat,
     coursedes: usrobj.coursedes,
     coursepic : "NULL"
     });
@@ -284,8 +288,80 @@ app.get('/course', (req, res)=>{
     res.status(200).render('course.pug',{title:'Courses',products:userMap});
   });
   
-})
+});
 
+app.get('/computer',(req,res)=>{
+  course.find({coursecat:'computer'}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    console.log(userMap);  
+    res.status(200).render('course.pug',{title:'Courses',products:userMap});
+  });
+});
+app.get('/electronics',(req,res)=>{
+  course.find({coursecat:'electronics'}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    console.log(userMap);  
+    res.status(200).render('course.pug',{title:'Courses',products:userMap});
+  });
+});
+app.get('/language',(req,res)=>{
+  course.find({coursecat:'language'}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    console.log(userMap);  
+    res.status(200).render('course.pug',{title:'Courses',products:userMap});
+  });
+});
+app.get('/mathematics',(req,res)=>{
+  course.find({coursecat:'mathematics'}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    console.log(userMap);  
+    res.status(200).render('course.pug',{title:'Courses',products:userMap});
+  });
+});
+app.get('/science',(req,res)=>{
+  course.find({coursecat:'science'}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    console.log(userMap);  
+    res.status(200).render('course.pug',{title:'Courses',products:userMap});
+  });
+});
+app.get('/other',(req,res)=>{
+  course.find({coursecat:'other'}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    console.log(userMap);  
+    res.status(200).render('course.pug',{title:'Courses',products:userMap});
+  });
+});
 app.get('/categories', (req, res)=>{
   res.status(200).render('categories.pug');
 })

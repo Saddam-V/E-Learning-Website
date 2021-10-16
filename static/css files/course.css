@@ -6,7 +6,7 @@ nav,header,footer{
 body{
     line-height: 1;
     margin: 0;
-    background-color: blanchedalmond;
+    background-color:gray;
 }
 
 h2{
@@ -28,6 +28,11 @@ h2{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    margin-bottom: 1%;
+    background: linear-gradient(antiquewhite,floralwhite);
+    border-top-left-radius: 10%;
+    border-bottom-left-radius: 10%;
+    padding: 2%;
 }
 
 .row::after{
