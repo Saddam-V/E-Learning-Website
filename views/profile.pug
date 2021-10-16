@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing+Script&display=swap" rel="stylesheet">
+        <title>My Website</title>
+        <link rel="stylesheet" href="../static/css files/profilenew.css">
+    </head>
+
+
+
+        |<!--#####################  NAVIGATION BAR  #########################-->
+    <body id="body">
+        <script>
+        |document.addEventListener("DOMContentLoaded", () => {
+        |//    window.post = function(usr) {
+        |//    return fetch("/profile", {method: "POST"});
+        |//   console.log("domloaded")
+        |//       }
+        |});
+        </script>
+
+        <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+        <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
+        <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+        <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+        <script type = module>
+            |      const firebaseConfig = {
+            |          apiKey: "AIzaSyC2HnKPOcJuoQRHLy_qPlQHsEdPOmTcDIQ",
+            |          authDomain: "m2learning.firebaseapp.com",
+            |          databaseURL: "https://m2learning-default-rtdb.firebaseio.com",
+            |          projectId: "m2learning",
+            |          storageBucket: "m2learning.appspot.com",
+            |          messagingSenderId: "169205910629",
+            |          appId: "1:169205910629:web:dcff87a56454550e244a8c",
+            |          measurementId: "G-JTTX230017"
+            |        };
+
+            |     // Initialize Firebase
+            |    firebase.initializeApp(firebaseConfig);
+               
+        </script>
+        
+        <script type = module>
+        |   const auth = firebase.auth();
+        |   auth.onAuthStateChanged(user => {
+        |      if (user) {
+        |        // User is signed in, see docs for a list of available properties
+        |        // https://firebase.google.com/docs/reference/js/firebase.User
+        |        const uid = user.uid;
+        |        console.log("u r logged in");
+        |        const bd = document.querySelector('#body');
+        |        //#######################################################
+        |        //#######################################################
+        |        bd.style.display='block';
+        |        // ...
+        |      } else {
+        |        // User is signed out
+        |        console.log("u r logged out");
+        |        window.location.href = "/";
+        |        // ...
+        |      }
+        |    });
+        </script>
+        <nav>
+            <ul class="topnav" id="dropmenu">
+                <li><a href="/homelogin">Home</a></li>
+                <li><a href="#course">Courses</a></li>
+                <li><a href="#stuff">My Stuff</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/about">About us</a></li> 
+                <li class="dropdown"><a href="javascript:void(0);" onclick="dropnav()">&#9776;</a></li>
+                <li class="bar" id="logout"><a href="/">Logout</a></li>
+                <li class="bar"><input type="text" placeholder="Search for courses"></li>
+
+            </ul>
+        </nav>
+
+
+            |<!--######################## SECTION 1 Headings ################-->
+
+
+        <div class="container" id="sec1-p">
+            <div class="row">
+
+                <div class="col-6">
+                    <div class="pbox">
+                        <img id="profilepic" src= #{profpic} alt= "Edit your profile pic">
+                    </div>
+                    <button class="profbtn" onclick="chngprof()">Edit</button>
+                    <form id="chngprof" action="/upload" method="post" enctype="multipart/form-data">
+                        <input type="file" id="myFile" name="filename">
+                        <input type="submit">
+                    </form>
+                </div>
+
+                <div class="col-3">
+                    <div class="details">
+                        <label for="mname">Name:</label><br>
+                        <label for="myname" class="mydetails">#{name}</label><br>
+                        <label for="mycontact">Contact:</label><br>
+                        <label for="mynum" class="mydetails">#{contact}</label><br>
+                    </div>
+                </div>
+                
+                <div class="col-3">
+                    <div class="details">
+                        <label for="mymail">Email:</label><br>
+                        <label for="myemail" class="mydetails">#{email}</label><br>
+                        <label for="Qualificatio">Qualification:</label><br>
+                        <label for="myqual" class="mydetails">#{qual}</label><br>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+            |<!--################################ Section 2 courses #############-->
+
+
+        <div class="container" id="sec2-p">
+            <div class="coursehead"><h2>My Courses</h2></div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="cbox">
+                        <img src="../static/image files/web.jfif" alt="web">
+                        <div><a href="">Course Name</a></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="cbox">
+                        <img src="../static/image files/typing.jfif" alt="web">
+                        <div><a href="">Course Name</a></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="cbox">
+                        <img src="../static/image files/after.jfif" alt="web">
+                        <div><a href="">Course Name</a></div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="cbox">
+                        <img src="../static/image files/design.jfif" alt="web">
+                        <div><a href="">Course Name</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="all"><a href="#mycourse">See all</a></div>
+        </div>
+
+            |<!--####################  CERTIFICATES SECTION 3  ###############-->
+
+        <div class="container" id="sec3-p">
+            <div class="coursehead"><h2>My Certificates</h2></div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="crbox">
+                        <img src="../static/image files/web.jfif" alt="web">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="crbox">
+                        <img src="../static/image files/typing.jfif" alt="web">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="crbox">
+                        <img src="../static/image files/after.jfif" alt="web">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="crbox">
+                        <img src="../static/image files/design.jfif" alt="web">
+                    </div>
+                </div>
+            </div>
+            <div class="all"><a href="#mycerti">See all</a></div>
+        </div>
+
+        |<!--########################  ACHIEVEMENTS  ####################-->
+        <div class="container" id="sec4-p">
+            <div class="coursehead"><h2>Achievements</h2></div>
+            <div class="row" id="achieve">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+            </div>
+        </div>
+
+            |<!--#####################################    footer   ###################################-->
+
+        <div class="container" id="footrcont">
+            <div class="row" id="footr">
+                <div class="col-4">
+                    <h2>Company</h2>
+                    <ul>
+                        <li>About</li>
+                        <li>Blogs</li>
+                        <li>Career</li>
+                        <li>Contact</li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h2>Developers</h2>
+                    <ul>
+                        <li>About</li>
+                        <li>Blogs</li>
+                        <li>Career</li>
+                        <li>Contact</li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h2>Other</h2>
+                    <ul>
+                        <li>Help and Support</li>
+                        <li>Teach on M<sup>2</sup> Learning</li>
+                        <li>Privacy Policy</li>
+                        <li>Terms and Conditions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        |<!--#######################firebase section#################################-->
+        <script type = module>
+        |
+        |const auth = firebase.auth();
+        |const logout = document.querySelector('#logout');
+        |logout.addEventListener('click',(e)=>{
+        |    e.preventDefault();
+        |  
+        |   auth.signOut();
+        |});
+        </script>
+        <script src="/static/js files/profile.js"></script>
+    </body>
+</html>

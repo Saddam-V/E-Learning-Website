@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=auto, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css files/signup.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <ul class="topnav" id="dropmenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="#course">Courses</a></li>
+            <li><a href="#stuff">My Stuff</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/about">About us</a></li> 
+            <li class="dropdown"><a href="javascript:void(0);"
+               | onclick="dropnav()">&#9776;</a></li>
+            <li class="topnav-right"><a 
+               | href="#signup">Sign up</a></li>
+            <li class="topnav-right"><a 
+               | href="/signin">Sign in</a></li>
+            <li class="bar"><input type="text" placeholder="Search for courses"></li>
+            
+        </ul>
+    </nav>
+
+
+    |<!--######################## SECTION 1 Headings ################-->
+    <div class="box">
+        <form id="signup-Form">
+                <h2 class="signh1">Please Enter Your Details:-</h2>
+                <label for="username" class="lbl">Username  </label>
+                <input class="usrinput" type="text" name="usrnm" placeholder="Enter your username">
+                <label for="name" class="lbl">Name  </label>
+                <input class="usrinput" type="text" name="nm" placeholder="Enter your name">
+                <label for="email" class="lbl">Email  </label>
+                <input class="usrinput" type="text" name="email" placeholder="Enter your email">
+                <label for="phoneno" class="lbl">Phone no.  </label>
+                <input class="usrinput" type="text" name="pn" placeholder="Enter your Phone no.">
+                <label for="class" class="lbl">Class  </label>
+                <input class="usrinput" type="text" name="cls" placeholder="Enter your class">
+                <label for="username" class="lbl">Password  </label>
+                <input class="usrinput" type="password" name="pswrd" placeholder="Enter your Password">
+                <button class="signinbutton">Sign up</button>
+        </form>
+    </div>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyC2HnKPOcJuoQRHLy_qPlQHsEdPOmTcDIQ",
+        authDomain: "m2learning.firebaseapp.com",
+        databaseURL: "https://m2learning-default-rtdb.firebaseio.com",
+        projectId: "m2learning",
+       storageBucket: "m2learning.appspot.com",
+        messagingSenderId: "169205910629",
+        appId: "1:169205910629:web:dcff87a56454550e244a8c",
+        measurementId: "G-JTTX230017"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      db.settings({timestampsInSnapshots: true});
+    </script>
+    <script src="/static/js files/auth.js"></script>
+    <script src="/static/js files/signup.js"></script>
+</body>
+</html>

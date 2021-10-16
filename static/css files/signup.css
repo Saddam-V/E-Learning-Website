@@ -1,0 +1,116 @@
+nav{
+    width: 100%;
+    margin: 0;
+}
+
+nav ul{
+    background-color:#666;
+    overflow: hidden;/*overflowing objects will be hidden*/
+    margin: 0;
+    padding: 0;
+}
+
+ul.topnav li{
+    list-style: none;
+    float:left;
+}
+
+ul.topnav li.topnav-right{
+    list-style: none;
+    float: right;
+}
+
+ul.topnav li.bar{
+    list-style: none;
+    float: right;
+    margin-right: 2%;
+}
+
+ul.topnav li a{
+    display: block;
+    text-decoration: none;
+    min-height: 16px;
+    text-align: center;
+    padding: 14px;
+    text-transform: uppercase;
+    color:azure;
+    border-radius: 15px;
+    transition: 0.3s 0.3s ease-in;
+}
+
+ul.topnav li a:hover{
+    background-color:antiquewhite;
+    color:chocolate;
+}
+
+ul.topnav li.dropdown{
+    display: none;
+}
+
+ul.topnav li input[type=text] {
+    padding: 6px;
+    border: none;
+    border-radius: 10px;
+    margin: 3%;
+    font-size: 15px;
+  }
+/*############## All Sections    #############*/
+body{
+    margin: 0;
+    padding: 0;
+    background-color: aliceblue;
+}
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 562px;
+    flex-direction: column;
+}
+.signh1{
+    color: #666;
+    padding-bottom: 5%;
+    padding-top: 0;
+}
+#signup-Form h2{
+    font-size: 30px;
+}
+.usrinput{
+    border-radius: 20%;
+    padding: 2%;
+    margin: 2%;
+    margin-left: 5%;
+    box-shadow: 1px 1px 1px black;
+}
+.signinbutton{
+    border-radius: 20%;
+    padding: 3%;
+    margin-top: 5%;
+    background-color: #666;
+    color: white;
+    width: 30%;
+}
+.lbl{
+    color: #666;
+    font-size: 125%;
+}
+#signup-Form{
+    display: flex;
+    background-color:white;
+    border-radius: 20%;
+    padding: 3%;
+    flex-direction: column;
+    box-shadow: 2px 2px 2px black;
+    justify-content: center;
+    width: 30%;
+    margin: 5%;
+}
+.link{
+    padding: 1%;
+    font-size: 105%;
+    color: #666;
+}
+.link a{
+    text-decoration: none;
+    color: #666;
+}

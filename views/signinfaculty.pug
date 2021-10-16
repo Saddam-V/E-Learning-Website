@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=auto, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css files/signin.css">
+    <title>Document</title>
+</head>
+<body>
+  
+    <nav>
+        <ul class="topnav" id="dropmenu">
+            <li><a href="/">Home</a></li>
+            <li><a href="#course">Courses</a></li>
+            <li><a href="/about">About us</a></li> 
+            <li class="dropdown"><a href="javascript:void(0);"
+               | onclick="dropnav()">&#9776;</a></li>
+            <li class="topnav-right"><a 
+               | href="/signup">Sign up</a></li>
+            <li class="topnav-right"><a 
+               | href="">Sign in</a></li>
+            <li class="bar"><input type="text" placeholder="Search for courses"></li>
+            
+        </ul>
+    </nav>
+
+
+
+    |<!--######################## SECTION 1 Headings ################-->
+    <div class="box">
+        <div class="link"><h2>Welcome Faculty</h2></div>
+        <form id="user-login">
+            <h2 class="signh1">Please Enter Your Details:-</h2>
+            <label for="username" class="lbl">Username  </label>
+            <input class="usrinput" type="text" name="usrnm" id="usrnmlogin" placeholder="Enter your username">
+            <label for="username" class="lbl">Password  </label>
+            <input class="usrinput" type="password" name="pswrd" id="pswrdlogin" placeholder="Enter your Password">
+            <button class="signinbutton">Sign in</button>
+        </form>
+        <div class="link"><a href="/signin">Student Signin</a></div>
+    </div>
+
+    |<!--###################################firebase section####################-->
+    <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
+    <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+    <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+    <script type = module>
+        |      const firebaseConfig = {
+        |       apiKey: "AIzaSyADebmgIhzA2Ph_z_4gw_IESJpf2dIOeyk",
+        |        authDomain: "new-project-96221.firebaseapp.com",
+        |        databaseURL: "https://new-project-96221.firebaseio.com",
+        |        projectId: "new-project-96221",
+        |        storageBucket: "new-project-96221.appspot.com",
+        |        messagingSenderId: "600359304170",
+        |        appId: "1:600359304170:web:89d79cbb90af02d08c9093"
+        |        };
+
+        |     // Initialize Firebase
+        |    firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script type = module>
+        |const signupForm = document.querySelector('#user-login');
+        |signupForm.addEventListener('submit',(e)=>{
+        |           e.preventDefault();
+        |   
+        |    const email = signupForm['usrnmlogin'].value;
+        |    const password = signupForm['pswrdlogin'].value;
+        |   const auth = firebase.auth();
+        |   auth.signInWithEmailAndPassword(email, password)
+        |  .then((userCredential) => {
+        |    // Signed in 
+        |    const user = userCredential.user;
+        |       console.log("signedin")
+        |    var url = "/signinfaculty";
+        |const Http = new XMLHttpRequest();
+        |   Http.open('post', url);
+        |   Http.setRequestHeader("Content-Type", "text/plain");
+        |   var obj = {
+        |               objusrnm : email,  
+        |              }
+        |   var objstr = JSON.stringify(obj);
+        |   console.log(objstr);
+        |    Http.send(objstr);
+        |    Http.onload = function() {
+        |    alert(Http.response); 
+        |   };
+        |     window.location.href="/faculty";
+        |    signupForm.reset();
+        |    // ...
+        |  })
+        |  .catch((error) => {
+        |    const errorCode = error.code;
+        |    const errorMessage = error.message;
+        |    // ..
+        |  });
+        |   
+        |});
+    </script>
+    <script type=module src="/static/js files/auth.js"></script>
+    <script src="/static/js files/signup.js"></scrip>
+</body>
+</html>

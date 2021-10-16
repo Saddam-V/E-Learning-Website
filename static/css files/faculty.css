@@ -1,0 +1,229 @@
+/*-------------------------Defaults---------------------*/
+nav,header,footer{
+    display: block;/*must cover whole block of row*/
+}
+
+body{
+    line-height: 1;
+    margin: 0;
+    background-color: blanchedalmond;
+}
+
+h2{
+    font-size:34px;
+    color: darkgrey;
+    text-align: center;
+    text-shadow: black 1px 1px 2px;
+}
+
+.container{
+    width: 100%;
+    margin: auto;
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+.row{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.row::after{
+    display: table;
+    clear: both;
+    content: "";
+}
+
+.col-1{width:8.33%}
+.col-2{width:16.66%}
+.col-0{width: 20.83%;}
+.col-3{width:25%}
+.col-4{width:33.33%}
+.col-5{width:41.66%}
+.col-6{width:50%}
+.col-7{width:58.33%}
+.col-8{width:66.66%}
+.col-9{width:75%}
+.col-10{width:83.33%}
+.col-11{width:91.66%}
+.col-12{width:100%}
+
+sup {
+    vertical-align: super;
+    font-size: smaller;
+  }
+
+*{
+    box-sizing: border-box;
+}
+/*--------------------nav-bar------------------*/
+
+nav{
+    width: 100%;
+    margin: 0;
+}
+
+nav ul{
+    background-color:#666;
+    overflow: hidden;/*overflowing objects will be hidden*/
+    margin: 0;
+    padding: 0;
+}
+
+ul.topnav li{
+    list-style: none;
+    float:left;
+}
+
+ul.topnav li.topnav-right{
+    list-style: none;
+    float: right;
+}
+
+ul.topnav li.bar{
+    list-style: none;
+    float: right;
+    margin-right: 2%;
+}
+
+ul.topnav li a{
+    display: block;
+    text-decoration: none;
+    min-height: 16px;
+    text-align: center;
+    padding: 14px;
+    text-transform: uppercase;
+    color:azure;
+    border-radius: 15px;
+    transition: 0.3s 0.3s ease-in;
+}
+
+ul.topnav li a:hover{
+    background-color:antiquewhite;
+    color:chocolate;
+}
+
+ul.topnav li.dropdown{
+    display: none;
+}
+
+ul.topnav li input[type=text] {
+    padding: 6px;
+    border: none;
+    border-radius: 10px;
+    margin: 3%;
+    font-size: 15px;
+  }
+
+.col-3,.col-6{
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    /* min-height: 562px; */
+    flex-direction: column;
+    padding: 2%;
+}
+.row{
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    /* min-height: 562px; */
+    flex-direction: row;
+}
+#user-login{
+    display: flex;
+    background-color:white;
+    border-radius: 20%;
+    padding: 5%;
+    flex-direction: column;
+    min-height: 303px;
+    min-width: 291px;
+    box-shadow: 2px 2px 2px black;
+    justify-content: center;
+}
+#addcourse{
+    display: flex;
+    background-color:white;
+    border-radius: 20%;
+    padding: 1%;
+    flex-direction: row;
+    box-shadow: 2px 2px 2px black;
+    justify-content:space-around;
+}
+#user-login1{
+    display: flex;
+    background-color:white;
+    border-radius: 20%;
+    padding: 1%;
+    margin:2%;
+    flex-direction: row;
+    box-shadow: 2px 2px 2px black;
+    justify-content:space-around;
+}
+.usrinput{
+    border-radius: 20%;
+    padding: 2%;
+    margin: 2%;
+    margin-left: 5%;
+    box-shadow: 1px 1px 1px black;
+}
+.signinbutton{
+    border-radius: 20%;
+    padding: 3%;
+    margin-top: 5%;
+    background-color: #666;
+    color: white;
+    width: 30%;
+}
+.lbl{
+    display: block;
+    color: #666;
+    font-size: 125%;
+    margin-left: 2px;
+}
+#user-login h2{
+    font-size: 30px;
+}
+
+#chngprof{
+    display: flex;
+    background-color:white;
+    border-radius: 20%;
+    padding: 8%;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+#chngprof input{
+    color:#666;
+    border-radius: 10%;
+    width: 50%;
+}
+
+.profbtn{
+    border-radius: 20%;
+    background-color: #666;
+    color: aliceblue;
+    margin:1%;
+}
+.col-6{
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+/*##############  Mobile  #############*/
+
+@media screen and (max-width: 680px ) {
+    ul.topnav li:not(:nth-child(8n+1)){
+        display: none;
+    }    
+
+    ul.topnav li.dropdown{
+        display: block;
+        float: right;
+    }
+}
