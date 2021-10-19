@@ -90,6 +90,14 @@ const LoginSchemafaculty = new mongoose.Schema({
   subject : String,
   profpic : String
 });
+const LoginSchemaadmin = new mongoose.Schema({
+  name: String,
+  username: String,
+  Email: String,
+  phone : String,
+  subject : String,
+  profpic : String
+});
 const LoginSchemacourses = new mongoose.Schema({
   facultyid: String,
   coursename: String,
@@ -98,9 +106,18 @@ const LoginSchemacourses = new mongoose.Schema({
   coursepic : String,
 });
 
+const LoginSchemauser = new mongoose.Schema({
+  studentid: String,
+  studentcourses: String,
+  courseid: String,
+  studentcertificate: String
+});
+
 const user = mongoose.model('user', LoginSchema);
 const faculty = mongoose.model('faculty', LoginSchemafaculty);
 const course = mongoose.model('courses', LoginSchemacourses);
+const usrdtl = mongoose.model('usrdtl', LoginSchemauser);
+const admin = mongoose.model('admin', LoginSchemaadmin);
 
 
 // EXPRESS SPECIFIC STUFF
@@ -153,6 +170,67 @@ app.post('/uploadcourse',(req,res,next)=>{
   
     });
 
+  app.post('/assigncourse',(req,res,next)=>{
+    y=fs.readFileSync('usrnmfac.txt');
+    const usrobj = req.body
+    let output = {'name': `${y}`}
+    var userMapstring;
+    var userMap;
+    var userstring
+
+    function ObjectLength( object ) {
+      var length = 0;
+      for( var key in object ) {
+          if( object.hasOwnProperty(key) ) {
+              ++length;
+          }
+      }
+      return length;
+    };
+    course.find({coursename: usrobj.coursename},function(err,docs){
+      if(err){
+        console.log(err)
+      }
+      else{
+        if(docs[0].facultyid==y){
+          usrdtl.find({studentid: usrobj.studentid},function(err, users) {
+            userMapstring = users[0].studentcourses;
+            courseMapstring = users[0].courseid;
+            userMap = JSON.parse(userMapstring);
+            courseMap = JSON.parse(courseMapstring);
+            var ln=(ObjectLength(userMap));
+            userMap[ln]=usrobj.coursename;
+            courseMap[ln]=docs[0]._id
+            console.log("this one");
+      
+            console.log(userMap);
+            console.log(courseMap);
+        
+            userstring=JSON.stringify(userMap);
+            coursestring=JSON.stringify(courseMap);
+
+            usrdtl.updateOne({ studentid: usrobj.studentid}, 
+              {studentcourses:userstring,
+               courseid: coursestring}, function (err, docs) {
+              if (err){
+                  console.log(err)
+              }
+              else{
+                  console.log("Updated Docs : ", docs);
+                  
+              }
+            });
+          });
+        }
+        else{
+          console.log("course does not belong to you");
+        }
+      }
+    });
+    res.status(200).render('faculty.pug');
+  
+    });
+
 app.post('/uploadcourseimg',uploadcrs.single('filename1'),(req,res,next)=>{
   var crspic=req.file.path;
   y=fs.readFileSync('usrnmfac.txt');
@@ -199,7 +277,6 @@ app.post('/signin', (req, res)=>{
   user.find({ username: usrobj.objusrnm}, function (err, docs) {
     var x=docs;
     if(docs[0]==undefined){
-      console.log("undefined factor");
       res.render('homelogin.pug');
       console.log(docs);
     }
@@ -220,7 +297,6 @@ app.post('/signinfaculty', (req, res)=>{
   faculty.find({ username: usrobj.objusrnm}, function (err, docs) {
     var x=docs;
     if(docs[0]==undefined){
-      console.log("undefined factor");
       res.render('faculty.pug');
       console.log(docs);
     }
@@ -231,12 +307,30 @@ app.post('/signinfaculty', (req, res)=>{
       namfac=docs[0].username;  
     }
   });
-})
+});
+
+app.post('/signinadmin', (req, res)=>{
+  const usrdetail = req.body;
+  const usrobj = JSON.parse(usrdetail);
+  admin.find({ username: usrobj.objusrnm}, function (err, docs) {
+    var x=docs;
+    if(docs[0]==undefined){
+      res.render('admin.pug');
+      console.log(docs);
+    }
+    else{
+      var usrnm = docs[0].username;
+      fs.writeFileSync("usrnmadmin.txt", usrnm);
+      nm=usrobj.objname;
+      namfac=docs[0].username;  
+    }
+  });
+});
 
 app.get('/', (req, res)=>{
     fs.writeFileSync("usrnm.txt", " ");
     res.status(200).render('home.pug');
-})
+});
 
 app.get('/profile', (req, res)=>{
    console.log("name iss")
@@ -244,7 +338,6 @@ app.get('/profile', (req, res)=>{
    user.find({ username: nam}, function (err, docs) {
     var x=docs;
     if(docs[0]==undefined){
-      console.log("undefined factor");
       res.render('homelogin.pug');
       console.log(docs);
     }
@@ -269,7 +362,6 @@ app.get('/profilelogin', (req, res)=>{
     user.find({ username: y}, function (err, docs) {
       var x=docs;
       if(docs[0]==undefined){
-        console.log("undefined factor");
         res.render('homelogin.pug');
       }
       else{
@@ -306,6 +398,18 @@ app.get('/course', (req, res)=>{
     res.status(200).render('course.pug',{title:'Courses',products:userMap});
   });
   
+});
+
+app.get('/mystuff',(req,res)=>{
+  y=fs.readFileSync('usrnm.txt');
+  usrdtl.find({studentid:y}, function(err, users) {
+    userMapstring = users[0].studentcourses;
+    courseMapstring = users[0].courseid;
+    userMap = JSON.parse(userMapstring);
+    courseMap = JSON.parse(courseMapstring);
+
+    res.status(200).render('mystuff.pug',{title:'Courses',products:userMap,ids:courseMap});
+  });
 });
 
 app.get('/computer',(req,res)=>{
@@ -403,6 +507,18 @@ app.get('/faculty', (req, res)=>{
   res.status(200).render('faculty.pug');
 })
 
+app.get('/admin', (req, res)=>{
+  res.status(200).render('admin.pug');
+});
+
+app.get('/signupadmin', (req, res)=>{
+  res.status(200).render('signupadmin.pug');
+});
+
+app.get('/signinadmin', (req, res)=>{
+  res.status(200).render('signinadmin.pug');
+})
+
 app.get('/signup', (req, res)=>{
   fs.writeFileSync("usrnm.txt", " ");
   res.status(200).render('signup.pug');
@@ -424,9 +540,19 @@ app.post('/signup', (req, res)=>{
     class : usrobj.objcls,
     profpic : "null"
     });
+  UsersName.save();
+
+    Usersdetails = new usrdtl({ studentid: usrobj.objusrnm,
+      courseid: "{}",
+      studentcourses: "{}",
+      studentcertificate:"{}"
+      });
+      Usersdetails.save();
+
+
   fs.writeFileSync("usrnm.txt", usrobj.objusrnm);
   nm=usrobj.objname;
-  UsersName.save();
+
   const details = user.find({ username: usrobj.objusrnm});
   console.log(details);
 })
@@ -443,18 +569,38 @@ app.post('/signupfaculty', (req, res)=>{
     profpic : "null"
     });
   nm=usrobj.objname;
-  fs.writeFileSync("usrnm.txt", usrobj.objusrnm);
+  fs.writeFileSync("usrnmfac.txt", usrobj.objusrnm);
   UsersName.save();
   const details = user.find({ username: usrobj.objusrnm});
   console.log(details);
 });
 
+app.post('/signupadmin', (req, res)=>{
+  console.log("post is working")
+  const usrdetail = req.body;
+  const usrobj = JSON.parse(usrdetail);
+  
+  UsersName = new admin({ name: usrobj.objname,
+    username: usrobj.objusrnm,
+    Email: usrobj.objemailid,
+    phone : usrobj.objpn,
+    subject : usrobj.objcls,
+    profpic : "null"
+    });
+  nm=usrobj.objname;
+  fs.writeFileSync("usrnmadmin.txt", usrobj.objusrnm);
+  UsersName.save();
+  const details = user.find({ username: usrobj.objusrnm});
+  console.log(details);
+});
+
+
 app.get('/:id', function(req, res) {
   var id = req.params.id
   course.find({ _id: id}, function (err, docs) {
     var x=docs;
+    try{
     if(docs==undefined){
-      console.log("undefined factor");
       res.render('homelogin.pug');
     }
     else{
@@ -465,6 +611,10 @@ app.get('/:id', function(req, res) {
       let output = {'name': `${nams}`,'qual':`${qual}`,'profpic':`${pic}`}
       res.status(200).render('coursepage.pug',output);
     }
+  }
+  catch(err){
+    res.render('homelogin.pug');
+  }
   });
 });
 // START THE SERVER

@@ -29,7 +29,7 @@
 
     |<!--######################## SECTION 1 Headings ################-->
     <div class="box">
-        <div class="link"><h2>Welcome Student</h2></div>
+        <div class="link"><h2>Welcome Faculty</h2></div>
         <form id="user-login">
             <h2 class="signh1">Please Enter Your Details:-</h2>
             <label for="username" class="lbl">Username  </label>
@@ -38,9 +38,8 @@
             <input class="usrinput" type="password" name="pswrd" id="pswrdlogin" placeholder="Enter your Password">
             <button class="signinbutton">Sign in</button>
         </form>
-        <div class="link"><a href="/signinfaculty">Faculty Signin</a></div>
+        <div class="link"><a href="/signin">Student Signin</a></div>
     </div>
-    
 
     |<!--###################################firebase section####################-->
     <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
@@ -49,14 +48,13 @@
     <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
     <script type = module>
         |      const firebaseConfig = {
-        |          apiKey: "AIzaSyC2HnKPOcJuoQRHLy_qPlQHsEdPOmTcDIQ",
-        |          authDomain: "m2learning.firebaseapp.com",
-        |          databaseURL: "https://m2learning-default-rtdb.firebaseio.com",
-        |          projectId: "m2learning",
-        |          storageBucket: "m2learning.appspot.com",
-        |          messagingSenderId: "169205910629",
-        |          appId: "1:169205910629:web:dcff87a56454550e244a8c",
-        |          measurementId: "G-JTTX230017"
+        |           apiKey: "AIzaSyBVMtSPtgfSxrNFoZBayJhFWiTszYnBvkA",
+        |            authDomain: "admin-15455.firebaseapp.com",
+        |            projectId: "admin-15455",
+        |            storageBucket: "admin-15455.appspot.com",
+        |            messagingSenderId: "706392511513",
+        |            appId: "1:706392511513:web:99b3a5a083dafd57e68688",
+        |            measurementId: "G-RQTFKHJFSD"
         |        };
 
         |     // Initialize Firebase
@@ -76,7 +74,7 @@
         |    // Signed in 
         |    const user = userCredential.user;
         |       console.log("signedin")
-        |    var url = "/signin";
+        |    var url = "/signinadmin";
         |const Http = new XMLHttpRequest();
         |   Http.open('post', url);
         |   Http.setRequestHeader("Content-Type", "text/plain");
@@ -89,7 +87,7 @@
         |    Http.onload = function() {
         |    alert(Http.response); 
         |   };
-        |     window.location.href="/profile"
+        |     window.location.href="/admin";
         |    signupForm.reset();
         |    // ...
         |  })
@@ -102,7 +100,6 @@
         |});
     </script>
     <script type=module src="/static/js files/auth.js"></script>
-    <script src="/static/js files/signup.js"></script>
-   
+    <script src="/static/js files/signup.js"></scrip>
 </body>
 </html>

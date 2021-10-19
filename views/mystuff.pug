@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css files/course.css">
     <title>Document</title>
 </head>
 <body id="body">
-
     <script>
     |document.addEventListener("DOMContentLoaded", () => {
     |//    window.post = function(usr) {
@@ -57,11 +57,22 @@
     |      }
     |    });
     </script>
-
-    <h1>Add image of your course</h1>
-    <form id="chngprof" action="/uploadcourseimg" method="post" enctype="multipart/form-data">
-        <input type="file" id="myFile" name="filename1">
-        <input type="submit">
-    </form>
+    <nav>
+        <ul class="topnav" id="dropmenu">
+            <li><a href="/homelogin">Home</a></li>
+            <li><a href="/categories">Courses</a></li>
+            <li><a href="/mystuff">My Stuff</a></li>
+            <li><a href="/profilelogin">Profile</a></li>
+            <li><a href="/about">About us</a></li> 
+            <li class="dropdown"><a href="javascript:void(0);" onclick="dropnav()">&#9776;</a></li>
+            <li class="bar" id="logout"><a href="/">Logout</a></li>
+            <li class="bar"><input type="text" placeholder="Search for courses"></li>
+        </ul>
+    </nav>
+    ul.coursebox
+        each val,index in products
+            .row 
+                a.col-4(href='/'+ids[index])= val
+    
 </body>
 </html>

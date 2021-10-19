@@ -117,7 +117,7 @@ ul.topnav li input[type=text] {
     font-size: 15px;
   }
 
-.col-3,.col-6{
+.col-4,.col-12{
     display: flex;
     justify-content:space-around;
     align-items: center;
@@ -145,28 +145,21 @@ ul.topnav li input[type=text] {
 }
 #addcourse{
     display: flex;
+    margin-left: 15%;
+    width: 50%;
     background-color:white;
     border-radius: 20%;
     padding: 1%;
     flex-direction: row;
     box-shadow: 2px 2px 2px black;
-    justify-content:space-around;
+    justify-content:center;
 }
-#user-login1{
-    display: flex;
-    background-color:white;
-    border-radius: 20%;
-    padding: 1%;
-    margin:2%;
-    flex-direction: row;
-    box-shadow: 2px 2px 2px black;
-    justify-content:space-around;
-}
+
 .usrinput{
     border-radius: 20%;
     padding: 2%;
     margin: 2%;
-    margin-left: 5%;
+    /* margin-left: 5%; */
     box-shadow: 1px 1px 1px black;
 }
 .signinbutton{
@@ -209,7 +202,7 @@ ul.topnav li input[type=text] {
     color: aliceblue;
     margin:1%;
 }
-.col-6{
+.col-12{
     align-items: center;
     text-align: center;
     justify-content: center;
