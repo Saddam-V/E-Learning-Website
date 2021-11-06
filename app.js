@@ -9,16 +9,18 @@ const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const multer = require('multer');
 const Jimp = require('jimp') ;
+const download = require('download');
 
-async function textOverlay() {
+
+async function textOverlay(x,y) {
    // Reading image
    const image = await Jimp.read('./static/courseimages/certificate.jpg');
    // Defining the text font
    const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
-   image.print(font,117, 97, 'Students Name');
-   image.print(font,35,157, 'course Name');
+   image.print(font,117, 97, x);
+   image.print(font,35,157, y);
    // Writing image after processing
-   await image.writeAsync('./static/certificates/certifica.jpg');
+   await image.writeAsync('./static/certificates/'+x+y+'.jpg');
 }
 
 console.log("Image is processed succesfully");
@@ -166,6 +168,9 @@ app.post('/assigncertificate',(req,res,next)=>{
         studentid: usrobj.usrnm})
         }
         Certi.save();
+
+        textOverlay(usrobj.usrnm,usrobj.course);
+
       }
     });
     res.status(200).render('faculty.pug');
@@ -441,6 +446,22 @@ app.get('/course', (req, res)=>{
   
 });
 
+app.get('/mycerti',(req,res)=>{
+  y=fs.readFileSync('usrnm.txt');
+  certi.find({studentid:y}, function(err, users) {
+
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    console.log(userMap);  
+    res.status(200).render('mycerti.pug',{title:'Courses',products:userMap});
+
+  });
+});
+
 app.get('/mystuff',(req,res)=>{
   y=fs.readFileSync('usrnm.txt');
   usrdtl.find({studentid:y}, function(err, users) {
@@ -635,6 +656,17 @@ app.post('/signupadmin', (req, res)=>{
   console.log(details);
 });
 
+app.get('/certi:id', function(req, res) {
+  y=fs.readFileSync('usrnm.txt');
+  var id = req.params.id
+  certi.find({_id:id}, function (err, docs) {
+
+  var cname = docs[0].coursename;
+  console.log(cname);
+  res.download('./static/certificates/'+y+cname+'.jpg');
+  });
+  // res.status(200).render('profile.pug');
+});
 
 app.get('/:id', function(req, res) {
   var id = req.params.id
