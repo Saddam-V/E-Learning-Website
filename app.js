@@ -18,7 +18,7 @@ async function textOverlay(x,y) {
    // Defining the text font
    const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
    image.print(font,117, 97, x);
-   image.print(font,35,157, y);
+   image.print(font,55,157, y);
    // Writing image after processing
    await image.writeAsync('./static/certificates/'+x+y+'.jpg');
 }
