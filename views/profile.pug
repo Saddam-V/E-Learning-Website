@@ -118,36 +118,8 @@
 
             |<!--################################ Section 2 courses #############-->
 
-
         <div class="container" id="sec2-p">
-            <div class="coursehead"><h2>My Courses</h2></div>
-            <div class="row">
-                <div class="col-3">
-                    <div class="cbox">
-                        <img src="../static/image files/web.jfif" alt="web">
-                        <div><a href="">Course Name</a></div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="cbox">
-                        <img src="../static/image files/typing.jfif" alt="web">
-                        <div><a href="">Course Name</a></div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="cbox">
-                        <img src="../static/image files/after.jfif" alt="web">
-                        <div><a href="">Course Name</a></div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="cbox">
-                        <img src="../static/image files/design.jfif" alt="web">
-                        <div><a href="">Course Name</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="all"><a href="#mycourse">See all</a></div>
+            <div class="all"><a href="/mystuff">SHOW MY COURSES</a></div>
         </div>
 
             |<!--####################  CERTIFICATES SECTION 3  ###############-->
@@ -155,26 +127,10 @@
         <div class="container" id="sec3-p">
             <div class="coursehead"><h2>My Certificates</h2></div>
             <div class="row">
-                <div class="col-3">
-                    <div class="crbox">
-                        <img src="../static/image files/web.jfif" alt="web">
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="crbox">
-                        <img src="../static/image files/typing.jfif" alt="web">
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="crbox">
-                        <img src="../static/image files/after.jfif" alt="web">
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="crbox">
-                        <img src="../static/image files/design.jfif" alt="web">
-                    </div>
-                </div>
+                each val in userMap
+                    .row 
+                        //- img.col-4(src=val href='/'+val._id)
+                        a.col-4(href='/'+val._id)= val
             </div>
             <div class="all"><a href="#mycerti">See all</a></div>
         </div>

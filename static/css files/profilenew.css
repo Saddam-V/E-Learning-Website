@@ -109,7 +109,9 @@ ul.topnav li input[type=text] {
 #sec1-p{
     background: linear-gradient(darkcyan,cyan);
 }
-
+#sec2-p{
+    background-color:cornsilk;
+}
 #sec3-p{
     background-color:antiquewhite;
 }
@@ -192,13 +194,15 @@ label.mydetails{
 }
 
 .all{
-    text-align: right;
-    font-size: 20px;
-    margin-right: 3%;
+    text-align: center;
+    font-size: 30px;
+    color: #666;
+    font-style: italic;
 }
 .all a{
-    color: #000;
-    font-style: bold;
+    color: #666;
+    font-style: italic;
+    text-decoration: none;
     padding: 0.5%;
 
 }
@@ -269,6 +273,11 @@ label.mydetails{
     text-align: center;
     justify-content: center;
 }
+.newimg{
+    width: 50px;
+    height: 50px;
+}
+
 /*##############  Mobile  #############*/
 
 @media screen and (max-width: 680px ) {

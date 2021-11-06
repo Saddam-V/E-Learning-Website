@@ -8,6 +8,20 @@ const port = 80;
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const multer = require('multer');
+const Jimp = require('jimp') ;
+
+async function textOverlay() {
+   // Reading image
+   const image = await Jimp.read('./static/courseimages/certificate.jpg');
+   // Defining the text font
+   const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+   image.print(font,117, 97, 'Students Name');
+   image.print(font,35,157, 'course Name');
+   // Writing image after processing
+   await image.writeAsync('./static/certificates/certifica.jpg');
+}
+
+console.log("Image is processed succesfully");
 
 global.nam="somevalue";
 global.nm="somevalue";
@@ -46,7 +60,8 @@ const storagecourse = multer.diskStorage({
     cb(null,'./static/courseimages');
   },
   filename: function(req, file, cb) {
-    cb(null, crs+".png");
+    crsnew=crs.replace(/\s/g, "");
+    cb(null, crsnew+".png");
   }
 });
 
@@ -113,11 +128,17 @@ const LoginSchemauser = new mongoose.Schema({
   studentcertificate: String
 });
 
+const LoginSchemacertificate = new mongoose.Schema({
+  coursename: String,
+  studentid: String
+});
+
 const user = mongoose.model('user', LoginSchema);
 const faculty = mongoose.model('faculty', LoginSchemafaculty);
 const course = mongoose.model('courses', LoginSchemacourses);
 const usrdtl = mongoose.model('usrdtl', LoginSchemauser);
 const admin = mongoose.model('admin', LoginSchemaadmin);
+const certi = mongoose.model('certi', LoginSchemacertificate);
 
 
 // EXPRESS SPECIFIC STUFF
@@ -129,7 +150,26 @@ app.set('view engine', 'pug') // Set the template engine as pug
 app.set('views', path.join(__dirname, 'views')) // Set the views directory
 
 // ENDPOINTS
+app.post('/assigncertificate',(req,res,next)=>{
+  y=fs.readFileSync('usrnmfac.txt');
+  const usrobj = req.body;
+  console.log(usrobj.usrnm);
+  console.log(usrobj.course);
 
+  course.find({coursename: usrobj.course},function(err,docs){
+    if(err){
+      console.log(err)
+    }
+    else{
+      if(docs[0].facultyid==y){
+        Certi = new certi({coursename: usrobj.course,
+        studentid: usrobj.usrnm})
+        }
+        Certi.save();
+      }
+    });
+    res.status(200).render('faculty.pug');
+});
 app.post('/uploadcourse',(req,res,next)=>{
   y=fs.readFileSync('usrnmfac.txt');
   const usrobj = req.body
@@ -162,7 +202,6 @@ app.post('/uploadcourse',(req,res,next)=>{
     course.deleteOne({ coursename: usrobj.coursename,
       facultyid: y }, function (err) {
       if (err) return handleError(err);
-      // deleted at most one tank document
       console.log("Error")
     });
   
@@ -369,9 +408,11 @@ app.get('/profilelogin', (req, res)=>{
         nams=docs[0].name;
         contact=docs[0].phone;
         email=docs[0].Email; 
-        qual=docs[0].class 
+        qual=docs[0].class; 
         pic=docs[0].profpic;
 
+        console.log(nams);
+        console.log(pic);
         let output = {'name': `${nams}`,'contact':`${contact}`,'email':`${email}`,'qual':`${qual}`,'profpic':`${pic}`}
         res.status(200).render('profile.pug',output);
       }

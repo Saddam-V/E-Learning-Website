@@ -18,12 +18,12 @@
                 
             </ul>
     </nav>
-    ul.coursebox
-        each val in products
-            .row 
-                img.col-4(src=val.coursepic href='/'+val._id)
-                a.col-4(href='/'+val._id)= val.coursename
-                p.col-4=val.coursedes
+        ul.coursebox
+            each val in products
+                .row 
+                    img.col-4(src=val.coursepic href='/'+val._id)
+                    a.col-4(href='/'+val._id)= val.coursename
+                    //- p.col-4=val.coursedes
     
 </body>
 </html>
