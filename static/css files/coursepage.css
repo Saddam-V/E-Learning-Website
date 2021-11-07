@@ -170,3 +170,17 @@ ul.topnav li input[type=text] {
 #right{
     text-align: center;
 }
+.buybutton{
+    color: #666;
+    background-color: antiquewhite;
+    transition: 0.3s 0.3s ease-in;
+}
+.buybutton:hover{
+    color: antiquewhite;
+    background-color: #666;
+}
+.buyinput{
+    background-color: antiquewhite;
+    color: #666;
+    cursor: pointer;
+}

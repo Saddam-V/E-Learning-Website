@@ -10,20 +10,7 @@ const bodyparser = require("body-parser");
 const multer = require('multer');
 const Jimp = require('jimp') ;
 const download = require('download');
-
-
-async function textOverlay(x,y) {
-   // Reading image
-   const image = await Jimp.read('./static/courseimages/certificate.jpg');
-   // Defining the text font
-   const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
-   image.print(font,117, 97, x);
-   image.print(font,55,157, y);
-   // Writing image after processing
-   await image.writeAsync('./static/certificates/'+x+y+'.jpg');
-}
-
-console.log("Image is processed succesfully");
+const nodemailer = require("nodemailer");
 
 global.nam="somevalue";
 global.nm="somevalue";
@@ -142,6 +129,29 @@ const usrdtl = mongoose.model('usrdtl', LoginSchemauser);
 const admin = mongoose.model('admin', LoginSchemaadmin);
 const certi = mongoose.model('certi', LoginSchemacertificate);
 
+async function textOverlay(x,y) {
+  user.find({username:x},async function(err,docs){
+    if(docs[0]==undefined){
+      console.log(err);
+    }
+    else{
+      z=docs[0].name;
+      console.log("thispoint")
+      console.log(z);
+   // Reading image
+   const image = await Jimp.read('./static/courseimages/certificate.jpg');
+   // Defining the t ext font
+   const font = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+   image.print(font,117, 97, z);
+   image.print(font,55,157, y);
+   // Writing image after processing
+   await image.writeAsync('./static/certificates/'+x+y+'.jpg');
+  }
+  });
+}
+
+console.log("Image is processed succesfully");
+
 
 // EXPRESS SPECIFIC STUFF
 app.use('/static', express.static('static')); // For serving static files
@@ -152,6 +162,44 @@ app.set('view engine', 'pug') // Set the template engine as pug
 app.set('views', path.join(__dirname, 'views')) // Set the views directory
 
 // ENDPOINTS
+app.post('/buycourse',(req,res)=>{
+  y=fs.readFileSync("usrnm.txt");
+  user.find({username:y},function(err,docs){
+  var stuphone = docs[0].phone 
+  course.find({coursename:req.body.crsname},function(err,docs){
+      const fac=docs[0].facultyid;
+
+//********************************************************************************************** */
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user:'m2learning0@gmail.com',
+        pass:'qmwnebrv102938'
+      }
+    });
+
+    var mailOptions = {
+      from: 'm2learning0@gmail.com',
+      to: fac,
+      subject: 'Test mail from M2Learning',
+      text: `A student with mailid `+y+` and phone number `+stuphone+` is trying to buy your course `+req.body.crsname
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+        console.log(error);
+      }else{
+        console.log('Email sent: ' + info.response);
+      }
+    });
+
+//********************************************************************************************** */
+
+  });
+      
+});
+});
+
 app.post('/assigncertificate',(req,res,next)=>{
   y=fs.readFileSync('usrnmfac.txt');
   const usrobj = req.body;
