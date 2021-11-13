@@ -73,3 +73,41 @@ body{
 .para{
     width: 50%;
 }
+@media screen and (max-width: 680px ) {
+    ul.topnav li:not(:nth-child(8n+1)){
+        display: none;
+    }    
+
+    ul.topnav li.dropdown{
+        display: block;
+        float: right;
+    }
+
+    ul.topnav.reposition{
+        position: relative;
+    }
+
+    ul.topnav.reposition li{
+        display:inline;
+        float: none;
+    }
+
+    ul.topnav.reposition li a{
+        display: block;
+        text-align: left;
+    }
+
+    ul.topnav.reposition li.dropdown a{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    ul.topnav.reposition li.bar input{
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-right: 8%;
+        margin-top: 1%;
+    }
+}
