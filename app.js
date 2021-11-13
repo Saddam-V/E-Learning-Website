@@ -16,6 +16,10 @@ global.nam="somevalue";
 global.nm="somevalue";
 global.namfac="somevalue";
 global.crs="somevalue";
+global.y="somevalue";
+global.yfac="somevalue";
+global.yadmin="somevalue";
+global.i=0;
 
 
 const storage = multer.diskStorage({
@@ -369,12 +373,13 @@ app.post('/signin', (req, res)=>{
   user.find({ username: usrobj.objusrnm}, function (err, docs) {
     var x=docs;
     if(docs[0]==undefined){
-      res.render('homelogin.pug');
+      // res.render('homelogin.pug');
       console.log(docs);
     }
     else{
       var usrnm = docs[0].username;
-      fs.writeFileSync("usrnm.txt", usrnm);
+      // fs.writeFileSync("usrnm.txt", usrnm);
+      y=usrnm;
       na=docs[0].name; 
       nm = na.split(" ")[0]
       console.log(na);
@@ -394,7 +399,8 @@ app.post('/signinfaculty', (req, res)=>{
     }
     else{
       var usrnm = docs[0].username;
-      fs.writeFileSync("usrnmfac.txt", usrnm);
+      yfac=usrnm;
+      // fs.writeFileSync("usrnmfac.txt", usrnm);
       nm=usrobj.objname;
       namfac=docs[0].username;  
     }
@@ -412,7 +418,8 @@ app.post('/signinadmin', (req, res)=>{
     }
     else{
       var usrnm = docs[0].username;
-      fs.writeFileSync("usrnmadmin.txt", usrnm);
+      yadmin=usrnm;
+      // fs.writeFileSync("usrnmadmin.txt", usrnm);
       nm=usrobj.objname;
       namfac=docs[0].username;  
     }
@@ -420,7 +427,10 @@ app.post('/signinadmin', (req, res)=>{
 });
 
 app.get('/', (req, res)=>{
-    fs.writeFileSync("usrnm.txt", " ");
+  y="somevalue";
+  yfac="somevalue";
+  yadmin="somevalue";
+    // fs.writeFileSync("usrnm.txt", " ");
     res.status(200).render('home.pug');
 });
 
@@ -450,7 +460,7 @@ app.get('/profile', (req, res)=>{
 
 app.get('/profilelogin', (req, res)=>{
     console.log(nam[0]);
-    y=fs.readFileSync('usrnm.txt');
+    // y=fs.readFileSync('usrnm.txt');
     user.find({ username: y}, function (err, docs) {
       var x=docs;
       if(docs[0]==undefined){
@@ -495,7 +505,7 @@ app.get('/course', (req, res)=>{
 });
 
 app.get('/mycerti',(req,res)=>{
-  y=fs.readFileSync('usrnm.txt');
+  // y=fs.readFileSync('usrnm.txt');
   certi.find({studentid:y}, function(err, users) {
 
     var userMap = {};
@@ -511,7 +521,7 @@ app.get('/mycerti',(req,res)=>{
 });
 
 app.get('/mystuff',(req,res)=>{
-  y=fs.readFileSync('usrnm.txt');
+  // y=fs.readFileSync('usrnm.txt');
   usrdtl.find({studentid:y}, function(err, users) {
     userMapstring = users[0].studentcourses;
     courseMapstring = users[0].courseid;
@@ -599,17 +609,20 @@ app.get('/categories', (req, res)=>{
 })
 
 app.get('/signin', (req, res)=>{
-  fs.writeFileSync("usrnm.txt", " ");
+  y="somevalue";
+  // fs.writeFileSync("usrnm.txt", " ");
   res.status(200).render('signin.pug');
 })
 
 app.get('/signinfaculty', (req, res)=>{
-  fs.writeFileSync("usrnm.txt", " ");
+  yfac="somevalue";
+  // fs.writeFileSync("usrnm.txt", " ");
   res.status(200).render('signinfaculty.pug');
 })
 
 app.get('/signupfaculty', (req, res)=>{
-  fs.writeFileSync("usrnm.txt", " ");
+  yfac="somevalue";
+  // fs.writeFileSync("usrnm.txt", " ");
   res.status(200).render('signupfaculty.pug');
 })
 
@@ -630,7 +643,8 @@ app.get('/signinadmin', (req, res)=>{
 })
 
 app.get('/signup', (req, res)=>{
-  fs.writeFileSync("usrnm.txt", " ");
+  y="somevalue";
+  // fs.writeFileSync("usrnm.txt", " ");
   res.status(200).render('signup.pug');
 })
 
@@ -679,7 +693,8 @@ app.post('/signupfaculty', (req, res)=>{
     profpic : "null"
     });
   nm=usrobj.objname;
-  fs.writeFileSync("usrnmfac.txt", usrobj.objusrnm);
+  yfac=usrobj.objusrnm;
+  // fs.writeFileSync("usrnmfac.txt", usrobj.objusrnm);
   UsersName.save();
   const details = user.find({ username: usrobj.objusrnm});
   console.log(details);
@@ -698,14 +713,15 @@ app.post('/signupadmin', (req, res)=>{
     profpic : "null"
     });
   nm=usrobj.objname;
-  fs.writeFileSync("usrnmadmin.txt", usrobj.objusrnm);
+  yadmin= usrobj.objusrnm;
+  // fs.writeFileSync("usrnmadmin.txt", usrobj.objusrnm);
   UsersName.save();
   const details = user.find({ username: usrobj.objusrnm});
   console.log(details);
 });
 
 app.get('/certi:id', function(req, res) {
-  y=fs.readFileSync('usrnm.txt');
+  // y=fs.readFileSync('usrnm.txt');
   var id = req.params.id
   certi.find({_id:id}, function (err, docs) {
 

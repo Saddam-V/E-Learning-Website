@@ -198,6 +198,13 @@ ul.sec1-right a:hover{
     color: #666;
 }
 
+.cat{
+    text-decoration: none;
+    color:#666;
+    font-size: 120%;
+}
+
+
 .box{
     border: 1px #666 solid;
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 1);

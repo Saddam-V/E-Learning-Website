@@ -262,6 +262,13 @@ ul.sec1-right a:hover{
     color: antiquewhite;
 }
 
+.cat{
+    text-decoration: none;
+    color:#666;
+    font-size: 120%;
+}
+
+
 /*##############  Mobile  #############*/
 
 @media screen and (max-width: 680px ) {
