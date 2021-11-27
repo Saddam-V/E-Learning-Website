@@ -48,6 +48,7 @@
     <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
     <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
     <script type = module>
         |      const firebaseConfig = {
         |          apiKey: "AIzaSyC2HnKPOcJuoQRHLy_qPlQHsEdPOmTcDIQ",
@@ -59,11 +60,9 @@
         |          appId: "1:169205910629:web:dcff87a56454550e244a8c",
         |          measurementId: "G-JTTX230017"
         |        };
-
         |     // Initialize Firebase
         |    firebase.initializeApp(firebaseConfig);
     </script>
-
     <script type = module>
         |const signupForm = document.querySelector('#user-login');
         |signupForm.addEventListener('submit',(e)=>{
@@ -78,7 +77,8 @@
         |    const user = userCredential.user;
         |       console.log("signedin")
         |    var url = "/signin";
-        |const Http = new XMLHttpRequest();
+        |    var test=0;
+        |   const Http = new XMLHttpRequest();
         |   Http.open('post', url);
         |   Http.setRequestHeader("Content-Type", "text/plain");
         |   var obj = {
@@ -90,7 +90,7 @@
         |    Http.onload = function() {
         |    alert(Http.response); 
         |   };
-        |     window.location.href="/profile"
+        |     window.location.href="/midpage";
         |    signupForm.reset();
         |    // ...
         |  })
@@ -102,9 +102,6 @@
         |   
         |});
     </script>
-    <script type=module src="/static/js files/auth.js"></script>
-    <script src="/static/js files/signup.js"></script>
-    <script src="../static/js files/home.js"></script>
    
 </body>
 </html>

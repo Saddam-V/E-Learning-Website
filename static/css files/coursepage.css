@@ -7,6 +7,7 @@ body{
     line-height: 1;
     margin: 0;
     display: none;
+    min-height: 625px;
 }
 
 .container{
@@ -107,6 +108,7 @@ ul.topnav li input[type=text] {
 
 /*############## All Sections    #############*/
 #sec1-p{
+    min-height: 525px;
     background: linear-gradient(to right,lightgray,antiquewhite);
 }
 
@@ -134,6 +136,7 @@ ul.topnav li input[type=text] {
 
 .pbox img{
     border-radius: 20%;
+    object-fit: cover;
     width: 100%;
     min-height: 400px;
     max-height: 550px;
@@ -141,7 +144,7 @@ ul.topnav li input[type=text] {
     max-width: 650px;
 }
 .details label{
-    font-size: 150%;
+    font-size: 115%;
     text-align: center;
     align-content: center;
     align-items: center;
@@ -183,6 +186,9 @@ ul.topnav li input[type=text] {
     background-color: antiquewhite;
     color: #666;
     cursor: pointer;
+}
+#user-login{
+    margin-top: 10%;
 }
 @media screen and (max-width: 680px ) {
     ul.topnav li:not(:nth-child(8n+1)){

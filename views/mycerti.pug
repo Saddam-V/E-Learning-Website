@@ -22,7 +22,8 @@
             each val in products
                 .row 
                     //- img.col-4(src=val.coursepic href='/'+val._id)
-                    a.col-4(href='/certi'+val._id)= val.coursename
+                    a.col-11(href='/certi'+val._id)= val.coursename
+                    a.col-12(href='/certi'+val._id)= "Click Here To Download"
                     //- p.col-4=val.coursedes
     <script src="../static/js files/home.js"></script>
 </body>

@@ -1,0 +1,1 @@
+var output = pug.compile(src, { plugins: [require('pug-plugin-try-catch')]});

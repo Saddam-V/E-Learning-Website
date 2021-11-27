@@ -95,6 +95,12 @@
                     <div class="details">
                         <label for="mydes" id="name">#{name}</label><br>                      
                     </div>
+                    <div class="details">
+                        <label for="mydes" id="name">Cost: Rs </label>
+                        <label for="myqual" id="name">#{price}</label>
+                        <label for="mydes" id="name"> /-</label>
+                    </div>
+
                     <form id="user-login" action="/buycourse" method="post"> 
                         <input class="buyinput" name="crsname" value=#{qual} readonly>
                         <button class="buybutton">Buy Course</button>

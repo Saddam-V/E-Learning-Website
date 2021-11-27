@@ -1,0 +1,16 @@
+body{
+    background: linear-gradient(lightgray,black);
+    min-height: 625px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+h1{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: antiquewhite;
+    text-align: center;
+    font-size: 125%;
+}

@@ -11,6 +11,9 @@ const multer = require('multer');
 const Jimp = require('jimp') ;
 const download = require('download');
 const nodemailer = require("nodemailer");
+const https = require('https');
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const { resolve } = require("path");
 
 global.nam="somevalue";
 global.nm="somevalue";
@@ -20,6 +23,10 @@ global.y="somevalue";
 global.yfac="somevalue";
 global.yadmin="somevalue";
 global.i=0;
+global.s=0;
+global.f=0;
+global.ad=0;
+global.supad=0;
 
 
 const storage = multer.diskStorage({
@@ -106,12 +113,21 @@ const LoginSchemaadmin = new mongoose.Schema({
   subject : String,
   profpic : String
 });
+const LoginSchemasupadmin = new mongoose.Schema({
+  name: String,
+  username: String,
+  Email: String,
+  phone : String,
+  subject : String,
+  profpic : String
+});
 const LoginSchemacourses = new mongoose.Schema({
   facultyid: String,
   coursename: String,
   coursecat: String,
   coursedes: String,
   coursepic : String,
+  courseprice : String
 });
 
 const LoginSchemauser = new mongoose.Schema({
@@ -131,6 +147,7 @@ const faculty = mongoose.model('faculty', LoginSchemafaculty);
 const course = mongoose.model('courses', LoginSchemacourses);
 const usrdtl = mongoose.model('usrdtl', LoginSchemauser);
 const admin = mongoose.model('admin', LoginSchemaadmin);
+const supadmin = mongoose.model('supadmin', LoginSchemasupadmin);
 const certi = mongoose.model('certi', LoginSchemacertificate);
 
 async function textOverlay(x,y) {
@@ -167,9 +184,10 @@ app.set('views', path.join(__dirname, 'views')) // Set the views directory
 
 // ENDPOINTS
 app.post('/buycourse',(req,res)=>{
-  y=fs.readFileSync("usrnm.txt");
   user.find({username:y},function(err,docs){
-  var stuphone = docs[0].phone 
+  var stuphone = docs[0].phone
+  console.log("this");
+  console.log(req.body.crsname); 
   course.find({coursename:req.body.crsname},function(err,docs){
       const fac=docs[0].facultyid;
 
@@ -205,17 +223,17 @@ app.post('/buycourse',(req,res)=>{
 });
 
 app.post('/assigncertificate',(req,res,next)=>{
-  y=fs.readFileSync('usrnmfac.txt');
   const usrobj = req.body;
   console.log(usrobj.usrnm);
   console.log(usrobj.course);
 
   course.find({coursename: usrobj.course},function(err,docs){
+    try{
     if(err){
       console.log(err)
     }
     else{
-      if(docs[0].facultyid==y){
+      if(docs[0].facultyid==yfac){
         Certi = new certi({coursename: usrobj.course,
         studentid: usrobj.usrnm})
         }
@@ -224,18 +242,22 @@ app.post('/assigncertificate',(req,res,next)=>{
         textOverlay(usrobj.usrnm,usrobj.course);
 
       }
+      res.status(200).render('faculty.pug');
+    }catch{
+      res.render("unexpected.pug");
+    }
     });
-    res.status(200).render('faculty.pug');
 });
 app.post('/uploadcourse',(req,res,next)=>{
-  y=fs.readFileSync('usrnmfac.txt');
+  // y=fs.readFileSync('usrnmfac.txt');
   const usrobj = req.body
-  let output = {'name': `${y}`}
+  let output = {'name': `${yfac}`}
 
   console.log(usrobj.cat)
 
-  Course = new course({ facultyid: y,
+  Course = new course({ facultyid: yfac,
     coursename: usrobj.coursename,
+    courseprice: usrobj.courseprice,
     coursecat: usrobj.cat,
     coursedes: usrobj.coursedes,
     coursepic : "NULL"
@@ -250,14 +272,13 @@ app.post('/uploadcourse',(req,res,next)=>{
   });
 
   app.post('/removecourse',(req,res,next)=>{
-    y=fs.readFileSync('usrnmfac.txt');
     const usrobj = req.body
-    let output = {'name': `${y}`}
+    let output = {'name': `${yfac}`}
   
     console.log(usrobj.cat)
 
     course.deleteOne({ coursename: usrobj.coursename,
-      facultyid: y }, function (err) {
+      facultyid: yfac }, function (err) {
       if (err) return handleError(err);
       console.log("Error")
     });
@@ -267,9 +288,8 @@ app.post('/uploadcourse',(req,res,next)=>{
     });
 
   app.post('/assigncourse',(req,res,next)=>{
-    y=fs.readFileSync('usrnmfac.txt');
     const usrobj = req.body
-    let output = {'name': `${y}`}
+    let output = {'name': `${yfac}`}
     var userMapstring;
     var userMap;
     var userstring
@@ -284,11 +304,12 @@ app.post('/uploadcourse',(req,res,next)=>{
       return length;
     };
     course.find({coursename: usrobj.coursename},function(err,docs){
+      try{
       if(err){
         console.log(err)
       }
       else{
-        if(docs[0].facultyid==y){
+        if(docs[0].facultyid==yfac){
           usrdtl.find({studentid: usrobj.studentid},function(err, users) {
             userMapstring = users[0].studentcourses;
             courseMapstring = users[0].courseid;
@@ -321,10 +342,12 @@ app.post('/uploadcourse',(req,res,next)=>{
         else{
           console.log("course does not belong to you");
         }
+        res.status(200).render('faculty.pug');
       }
-    });
-    res.status(200).render('faculty.pug');
-  
+    }catch(err){
+      res.status(404).render('unexpected.pug');
+    }
+    });  
     });
 
 app.post('/uploadcourseimg',uploadcrs.single('filename1'),(req,res,next)=>{
@@ -367,26 +390,31 @@ app.post('/upload',upload.single('filename'),(req,res,next)=>{
 
 
 
-app.post('/signin', (req, res)=>{
+app.post('/signin', async (req, res)=>{
   const usrdetail = req.body;
   const usrobj = JSON.parse(usrdetail);
-  user.find({ username: usrobj.objusrnm}, function (err, docs) {
-    var x=docs;
-    if(docs[0]==undefined){
-      // res.render('homelogin.pug');
-      console.log(docs);
-    }
-    else{
-      var usrnm = docs[0].username;
-      // fs.writeFileSync("usrnm.txt", usrnm);
-      y=usrnm;
-      na=docs[0].name; 
-      nm = na.split(" ")[0]
-      console.log(na);
-      nam=docs[0].username; 
-    }
+  user.find({ username: usrobj.objusrnm},function (err, docs) {
+      var x=docs;
+      if(docs[0]==undefined){
+        // res.render('homelogin.pug');
+        console.log("this is undefined");
+      }
+      else{
+        var usrnm = docs[0].username;
+        // fs.writeFileSync("usrnm.txt", usrnm);
+        y=usrnm;
+        na=docs[0].name; 
+        nm = na.split(" ")[0]
+        nam=docs[0].username; 
+
+      
+    // res.render("midpage.pug");
+      }
+
+    });
   });
-})
+ 
+  
 
 app.post('/signinfaculty', (req, res)=>{
   const usrdetail = req.body;
@@ -434,13 +462,85 @@ app.get('/', (req, res)=>{
     res.status(200).render('home.pug');
 });
 
+app.get('/choose',(req,res)=>{
+  var temp1;
+  var temp2;
+  var temp3;
+  var temp4;
+  var x=1;
+  let p=new Promise((resolve, reject)=>{
+  user.find({ username: nam}, function (err, docs) {
+    console.log("this choose");
+    console.log(docs);
+    console.log(docs[0]);
+    if(docs[0]==undefined){
+      s=0;
+    }else{
+      s=1;
+    }
+    console.log(s);
+    temp1=1;
+  });
+  faculty.find({username: y},function(err,docs){
+    console.log(docs);
+    console.log(docs[0]);
+    if(docs[0]==undefined){
+      f=0;
+    }else{
+      f=1;
+    }
+    console.log(f);
+    temp2=1;
+  });
+  admin.find({username: y},function(err,docs){
+    if(docs[0]==undefined){
+      ad=0;
+    }else{
+      ad=1;
+    }
+    console.log(ad);
+    temp3=1;
+  });
+  supadmin.find({username: y},function(err,docs){
+    if(docs[0]==undefined){
+      supad=0;
+    }else{
+      supad=1;
+    }
+    console.log(supad);
+    temp4=1;
+    if(temp1==1 && temp2==1 && temp3==1 && temp4==1){
+      resolve('success');
+      x=0;
+  }
+  });
+
+  });
+
+  p.then(()=>{
+    
+    let output = {'student': `${s}`,'faculty':`${f}`,'admin':`${ad}`,'superadmin':`${supad}`}
+        res.status(200).render("choose.pug",output);
+      
+  }).catch(()=>{
+     console.log("this is in catch");
+  })
+  // console.log(supad);
+});
+
+app.get('/midpage',(req,res)=>{
+  res.status(200).render("midpage.pug")
+});
+
 app.get('/profile', (req, res)=>{
    console.log("name iss")
    console.log(nam);
    user.find({ username: nam}, function (err, docs) {
     var x=docs;
+    console.log(x)
     if(docs[0]==undefined){
       res.render('homelogin.pug');
+      console.log("un");
       console.log(docs);
     }
     else{
@@ -738,19 +838,21 @@ app.get('/:id', function(req, res) {
     var x=docs;
     try{
     if(docs==undefined){
-      res.render('homelogin.pug');
+      res.render('notfound.pug');
     }
     else{
       qual = docs[0].coursename;
       nams=docs[0].coursedes;
       pic=docs[0].coursepic;
+      price=docs[0].courseprice;
 
-      let output = {'name': `${nams}`,'qual':`${qual}`,'profpic':`${pic}`}
+      let output = {'name': `${nams}`,'qual':`${qual}`,'profpic':`${pic}`,'price':`${price}`}
+      console.log(output.qual);
       res.status(200).render('coursepage.pug',output);
     }
   }
   catch(err){
-    res.render('homelogin.pug');
+    res.render('notfound.pug');
   }
   });
 });
