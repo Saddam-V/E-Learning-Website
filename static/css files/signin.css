@@ -123,11 +123,19 @@ body{
     font-size: 105%;
     color: white;
 }
+.linknew{
+    display: none;
+    margin-top: 1%;
+}
 .link a{
     text-decoration: none;
     color: white;
     font-family: 'Times New Roman', Times, serif;
     font-style: italic;
+}
+.linknew a{
+    text-decoration: none;
+    color: red;
 }
 .link a:hover{
     text-decoration: underline;

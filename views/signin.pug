@@ -38,7 +38,7 @@
             <input class="usrinput" type="password" name="pswrd" id="pswrdlogin" placeholder="Enter your Password">
             <button class="signinbutton">Sign in</button>
         </form>
-        <div class="link"><a href="/signinfaculty">Faculty Signin</a></div>
+        <div class="linknew" style="display=none "><a href="/signup">Username and password dosen't match<br>kindly signup or check your internet connection</a></div>
         <div class="link"><a href="/signup">Don't have an account</a></div>
     </div>
     
@@ -90,11 +90,62 @@
         |    Http.onload = function() {
         |    alert(Http.response); 
         |   };
+        
+
+        |    var url1 = "/signinfaculty";
+        |    var test=0;
+        |   const Http1 = new XMLHttpRequest();
+        |   Http1.open('post', url1);
+        |   Http1.setRequestHeader("Content-Type", "text/plain");
+        |   var obj1 = {
+        |               objusrnm : email,  
+        |              }
+        |   var objstr1 = JSON.stringify(obj1);
+        |   console.log(objstr1);
+        |    Http1.send(objstr1);
+        |    Http1.onload = function() {
+        |    alert(Http1.response); 
+        |   };
+
+
+        |    var url2 = "/signinadmin";
+        |    var test=0;
+        |   const Http2 = new XMLHttpRequest();
+        |   Http2.open('post', url2);
+        |   Http2.setRequestHeader("Content-Type", "text/plain");
+        |   var obj2 = {
+        |               objusrnm : email,  
+        |              }
+        |   var objstr2 = JSON.stringify(obj2);
+        |   console.log(objstr2);
+        |    Http2.send(objstr2);
+        |    Http2.onload = function() {
+        |    alert(Http2.response); 
+        |   };
+
+        |    var url3 = "/signinsupadmin";
+        |    var test=0;
+        |   const Http3 = new XMLHttpRequest();
+        |   Http3.open('post', url3);
+        |   Http3.setRequestHeader("Content-Type", "text/plain");
+        |   var obj3 = {
+        |               objusrnm : email,  
+        |              }
+        |   var objstr3 = JSON.stringify(obj3);
+        |   console.log(objstr3);
+        |    Http3.send(objstr3);
+        |    Http3.onload = function() {
+        |    alert(Http3.response); 
+        |   };
+
+
         |     window.location.href="/midpage";
         |    signupForm.reset();
         |    // ...
         |  })
         |  .catch((error) => {
+        |    const linknew = document.querySelector('.linknew');
+        |    linknew.style.display="block";
         |    const errorCode = error.code;
         |    const errorMessage = error.message;
         |    // ..

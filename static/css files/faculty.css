@@ -133,15 +133,16 @@ ul.topnav li input[type=text] {
     flex-direction: row;
 }
 #user-login{
+    text-align: center;
     display: flex;
     background-color:white;
     border-radius: 20%;
     padding: 5%;
     flex-direction: column;
-    min-height: 303px;
-    min-width: 291px;
+    min-height: 297px;
+    min-width: 271px;
     box-shadow: 2px 2px 2px black;
-    justify-content: center;
+    justify-content: space-around;
 }
 #addcourse{
     display: flex;
@@ -236,6 +237,12 @@ ul.topnav li input[type=text] {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+  }
+
+  #user-login .link a{
+      text-decoration: underline;
+      color: darkcyan;
+      font-size: 125%;
   }
   
   .dropdown-content a:hover {background-color: #ddd;}

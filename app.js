@@ -422,7 +422,7 @@ app.post('/signinfaculty', (req, res)=>{
   faculty.find({ username: usrobj.objusrnm}, function (err, docs) {
     var x=docs;
     if(docs[0]==undefined){
-      res.render('faculty.pug');
+      // res.render('home.pug');
       console.log(docs);
     }
     else{
@@ -430,9 +430,12 @@ app.post('/signinfaculty', (req, res)=>{
       yfac=usrnm;
       // fs.writeFileSync("usrnmfac.txt", usrnm);
       nm=usrobj.objname;
-      namfac=docs[0].username;  
+      nam=docs[0].username;  
     }
   });
+// else{
+//   res.render("home.pug");
+// }
 });
 
 app.post('/signinadmin', (req, res)=>{
@@ -441,7 +444,7 @@ app.post('/signinadmin', (req, res)=>{
   admin.find({ username: usrobj.objusrnm}, function (err, docs) {
     var x=docs;
     if(docs[0]==undefined){
-      res.render('admin.pug');
+      // res.render('admin.pug');
       console.log(docs);
     }
     else{
@@ -449,7 +452,26 @@ app.post('/signinadmin', (req, res)=>{
       yadmin=usrnm;
       // fs.writeFileSync("usrnmadmin.txt", usrnm);
       nm=usrobj.objname;
-      namfac=docs[0].username;  
+      nam=docs[0].username;  
+    }
+  });
+});
+
+app.post('/signinsupadmin', (req, res)=>{
+  const usrdetail = req.body;
+  const usrobj = JSON.parse(usrdetail);
+  supadmin.find({ username: usrobj.objusrnm}, function (err, docs) {
+    var x=docs;
+    if(docs[0]==undefined){
+      // res.render('admin.pug');
+      console.log(docs);
+    }
+    else{
+      var usrnm = docs[0].username;
+      yadmin=usrnm;
+      // fs.writeFileSync("usrnmadmin.txt", usrnm);
+      nm=usrobj.objname;
+      nam=docs[0].username;  
     }
   });
 });
@@ -481,7 +503,8 @@ app.get('/choose',(req,res)=>{
     console.log(s);
     temp1=1;
   });
-  faculty.find({username: y},function(err,docs){
+  faculty.find({username: nam},function(err,docs){
+    console.log(nam);
     console.log(docs);
     console.log(docs[0]);
     if(docs[0]==undefined){
@@ -492,7 +515,7 @@ app.get('/choose',(req,res)=>{
     console.log(f);
     temp2=1;
   });
-  admin.find({username: y},function(err,docs){
+  admin.find({username: nam},function(err,docs){
     if(docs[0]==undefined){
       ad=0;
     }else{
@@ -501,7 +524,7 @@ app.get('/choose',(req,res)=>{
     console.log(ad);
     temp3=1;
   });
-  supadmin.find({username: y},function(err,docs){
+  supadmin.find({username: nam},function(err,docs){
     if(docs[0]==undefined){
       supad=0;
     }else{
@@ -518,10 +541,13 @@ app.get('/choose',(req,res)=>{
   });
 
   p.then(()=>{
-    
-    let output = {'student': `${s}`,'faculty':`${f}`,'admin':`${ad}`,'superadmin':`${supad}`}
+    if(f==0 && ad==0 && supad==0){
+      res.status(200).render("homelogin.pug");
+    }
+    else{
+      let output = {'student': `${s}`,'faculty':`${f}`,'admin':`${ad}`,'superadmin':`${supad}`}
         res.status(200).render("choose.pug",output);
-      
+    }
   }).catch(()=>{
      console.log("this is in catch");
   })
@@ -727,11 +753,31 @@ app.get('/signupfaculty', (req, res)=>{
 })
 
 app.get('/faculty', (req, res)=>{
+  if(f==1){
   res.status(200).render('faculty.pug');
+  }
+  else{
+    res.status(200).render('home.pug');
+  }
 })
 
 app.get('/admin', (req, res)=>{
-  res.status(200).render('admin.pug');
+  if(ad==1){
+    res.status(200).render('admin.pug');
+  }else{
+    res.status(200).render('home.pug');
+  }
+});
+
+app.get('/supadmin', (req, res)=>{
+  if(supad==1){
+    res.status(200).render('supadmin.pug');
+  }else if(ad==1){
+    res.status(200).render('admin.pug');
+  }
+  else{
+    res.status(200).render('home.pug');
+  }
 });
 
 app.get('/signupadmin', (req, res)=>{
@@ -819,6 +865,7 @@ app.post('/signupadmin', (req, res)=>{
   const details = user.find({ username: usrobj.objusrnm});
   console.log(details);
 });
+
 
 app.get('/certi:id', function(req, res) {
   // y=fs.readFileSync('usrnm.txt');

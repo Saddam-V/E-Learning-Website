@@ -1,0 +1,26 @@
+h1{
+    font-size: 250%;
+    margin: 5%;
+    padding: 0;
+    color: #666;
+    font-family: 'Times New Roman', Times, serif;
+}
+body{
+    background: linear-gradient(to left, wheat,lemonchiffon);
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: underline;
+    color: darkcyan;
+    font-size: 115%;
+    margin: 2%;
+}
+.flexbox{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 500px;
+    text-align: center;
+}

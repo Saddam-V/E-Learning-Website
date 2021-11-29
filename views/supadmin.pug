@@ -23,7 +23,7 @@
         <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
         <script type = module>
         |      const firebaseConfig = {
-        |           apiKey: "AIzaSyC2HnKPOcJuoQRHLy_qPlQHsEdPOmTcDIQ",
+        |            apiKey: "AIzaSyC2HnKPOcJuoQRHLy_qPlQHsEdPOmTcDIQ",
         |          authDomain: "m2learning.firebaseapp.com",
         |          databaseURL: "https://m2learning-default-rtdb.firebaseio.com",
         |          projectId: "m2learning",
@@ -60,7 +60,7 @@
     </script>
     <nav>
         <ul class="topnav" id="dropmenu">
-            <li><a href="/homelogin">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#course">Courses</a></li>
             <li><a href="/about">About us</a></li> 
             <li class="dropdown"><a href="javascript:void(0);"
@@ -71,7 +71,7 @@
             
         </ul>
     </nav>
-    <div class="link"><h2>Faculty Dashboard</h2></div>
+    <div class="link"><h2>Admin Dashboard</h2></div>
     <div class="row">
         <div class="col-4" id="addstudent">
 
@@ -86,7 +86,7 @@
         </div>
         <div class="col-4" id="certify">
 
-            <form id="user-login" action="/assigncertificate" method="post">
+            <form id="user-login">
                 <h2 class="signh1">Assign Certificate :-</h2>
                 <label for="username" class="lbl">Username of student </label>
                 <input class="usrinput" type="text" name="usrnm" id="usrnmlogin" placeholder="Enter student username">
@@ -111,8 +111,6 @@
             <form id="chngprof" action="/uploadcourse" method="post">
                     <label for="crsname" class="lbl">Course Name</label>
                     <input class="usrinput" type="text" name="coursename" id="usrnmlogin" placeholder="Enter Course Name">
-                    <label for="crsprice" class="lbl">Course Price</label>
-                    <input class="usrinput" type="number" name="courseprice" id="usrnmlogin" placeholder="Enter Course Price">
                     <div class="dropdown">
                         <button class="dropbtn">Category</button>
                         <div class="dropdown-content">
@@ -135,7 +133,10 @@
                     <button class="signinbutton">Add</button>
             </form>
         </div>
-        
+        <div id="user-login">
+            <div class="link"><a href="/signupfaculty">Add Faculty</a></div>
+            <div class="link"><a href="/signupadmin">Add Admin</a></div>
+        </div>
     </div>
     <script type = module>
         |

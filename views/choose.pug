@@ -4,14 +4,17 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="../static/css files/choose.css")
         title Document
     body 
-        if student==1
-            a(href="/profile") Login as Student
-        if faculty==1
-            a(href="/faculty") Login as faculty
-        if admin==1
-            a(href="/admin") Login as admin
-        if superadmin==1
-            a(href="/supadmin") Login as supadmin
+        .flexbox 
+            h1 Select Your Role :
+            if student==1
+                a(href="/profile") Login as Student
+            if faculty==1
+                a(href="/faculty") Login as faculty
+            if admin==1
+                a(href="/admin") Login as admin
+            if superadmin==1
+                a(href="/supadmin") Login as supadmin
         
