@@ -81,10 +81,16 @@ ul.topnav li.topnav-right{
     float: right;
 }
 
-ul.topnav li.bar{
+ul.topnav .bar{
     list-style: none;
     float: right;
     margin-right: 2%;
+}
+button.bar{
+    border-radius: 20%;
+    background-color: #fff;
+    color: #666;
+    margin-top: 10px;
 }
 
 ul.topnav li a{
@@ -107,12 +113,11 @@ ul.topnav li a:hover{
 ul.topnav li.dropdown{
     display: none;
 }
-
-ul.topnav li input[type=text] {
+ul.topnav input[type=text] {
     padding: 6px;
     border: none;
     border-radius: 10px;
-    margin: 3%;
+    margin-top: 10px;
     font-size: 15px;
   }
 
@@ -161,7 +166,9 @@ ul.sec1-right a:hover{
     background-color:#666;
     color:antiquewhite;
 }
-
+.contform button{
+    color:aliceblue
+}
 #whyus ul,
 .contform label{
     font-size: 22px;

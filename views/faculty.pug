@@ -63,15 +63,19 @@
             <li><a href="/homelogin">Home</a></li>
             <li><a href="#course">Courses</a></li>
             <li><a href="/about">About us</a></li> 
+            <li><a href="/choose">My Role</a></li>
             <li class="dropdown"><a href="javascript:void(0);"
                | onclick="dropnav()">&#9776;</a></li>
             <li class="topnav-right" id="logout"><a 
                | href="/signup">Logout</a></li>
-            <li class="bar"><input type="text" placeholder="Search for courses"></li>
+            <form method="post" action="/search">
+                    <button class="bar">Search</button>
+                    <input name="cname" class="bar" type="text" placeholder="Search for courses">
+            </form>
             
         </ul>
     </nav>
-    <div class="link"><h2>Faculty Dashboard</h2></div>
+    //- <div class="link"><h2>Faculty Dashboard</h2></div>
     <div class="row">
         <div class="col-4" id="addstudent">
 
@@ -135,7 +139,7 @@
                     <button class="signinbutton">Add</button>
             </form>
         </div>
-        
+        <div class="mycourse"><a href="/getcourse">My Course </a></div>    
     </div>
     <script type = module>
         |

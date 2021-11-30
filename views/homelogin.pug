@@ -59,7 +59,10 @@
                 <li class="dropdown"><a href="javascript:void(0);"
                    | onclick="dropnav()">&#9776;</a></li>
                 <li class="bar" id="logout"><a href="/home">Logout</a></li>
-                <li class="bar"><input type="text" placeholder="Search for courses"></li>
+                <form method="post" action="/search">
+                    <button class="bar">Search</button>
+                    <input name="cname" class="bar" type="text" placeholder="Search for courses">
+                </form>
                 
                 
             </ul>
@@ -107,13 +110,13 @@
                 <div class="col-0" id="contus">
                     <div class="contact">
                         <h2>Contact Us</h2>
-                        <form action="" class="contform">
+                         <form action="/contactus" method="post" class="contform">
                             <label for="name">Name</label><br>
-                            <input type="text" id="name" name="your name" placeholder="Your Name"><br>
+                            <input type="text" id="name" name="yourname" placeholder="Your Name"><br>
                             <label for="email">Email</label><br>
                             <input type="email" id="email" name="mail" placeholder="Your Email">
+                            <button class="submit">Submit</button>
                         </form>
-                        <button class="submit"><a href="#Submit">Submit</a></button>
                     </div>
                 </div>
                 

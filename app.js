@@ -183,8 +183,40 @@ app.set('view engine', 'pug') // Set the template engine as pug
 app.set('views', path.join(__dirname, 'views')) // Set the views directory
 
 // ENDPOINTS
+app.post('/contactus',(req,res)=>{
+  var dtl=req.body;
+  var name=dtl.yourname;
+  var mail=dtl.mail;
+
+//********************************************************************************************** */
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user:'m2learning0@gmail.com',
+    pass:'qmwnebrv102938'
+  }
+});
+
+var mailOptions = {
+  from: 'm2learning0@gmail.com',
+  to: 'mohammedshafin055@gmail.com',
+  subject: 'Test mail from M2Learning',
+  text: `A person with name  `+name+` and email `+mail+` wants to contact you`
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if(error){
+    console.log(error);
+  }else{
+    console.log('Email sent: ' + info.response);
+  }
+});
+
+res.status(200).render("email.pug")
+
+})
 app.post('/buycourse',(req,res)=>{
-  user.find({username:y},function(err,docs){
+  user.find({username:nam},function(err,docs){
   var stuphone = docs[0].phone
   console.log("this");
   console.log(req.body.crsname); 
@@ -204,7 +236,7 @@ app.post('/buycourse',(req,res)=>{
       from: 'm2learning0@gmail.com',
       to: fac,
       subject: 'Test mail from M2Learning',
-      text: `A student with mailid `+y+` and phone number `+stuphone+` is trying to buy your course `+req.body.crsname
+      text: `A student with mailid `+y+` and phone number `+stuphone+` wants to buy your course `+req.body.crsname
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -218,7 +250,7 @@ app.post('/buycourse',(req,res)=>{
 //********************************************************************************************** */
 
   });
-      
+      res.status(200).render("email.pug");
 });
 });
 
@@ -730,6 +762,20 @@ app.get('/other',(req,res)=>{
     res.status(200).render('course.pug',{title:'Courses',products:userMap});
   });
 });
+
+app.get('/getcourse',(req,res)=>{
+  course.find({facultyid:nam}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    console.log(userMap);  
+    res.status(200).render('course.pug',{title:'Courses',products:userMap});
+  });
+});
+
 app.get('/categories', (req, res)=>{
   res.status(200).render('categories.pug');
 })
@@ -867,6 +913,30 @@ app.post('/signupadmin', (req, res)=>{
 });
 
 
+app.post('/search', (req, res)=>{
+  const srchobj = req.body;
+  console.log(srchobj.cname);
+  course.find({ "coursename": { "$regex": srchobj.cname , "$options": "i" } }, function (err, docs){
+    try{
+      if(docs==undefined){
+        res.render('notfound.pug');
+      }
+      else{
+        var userMap = {};
+
+        docs.forEach(function(user) {
+          userMap[user._id] = user;
+        });
+      
+        console.log(userMap);  
+        res.status(200).render('course.pug',{title:'Courses',products:userMap});
+      }
+    }
+    catch(err){
+      res.render('notfound.pug');
+    }
+  })
+});
 app.get('/certi:id', function(req, res) {
   // y=fs.readFileSync('usrnm.txt');
   var id = req.params.id

@@ -15,6 +15,24 @@ ul.topnav li{
     float:left;
 }
 
+ul.topnav input[type=text] {
+    padding: 6px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 15px;
+  }
+ul.topnav .bar{
+    list-style: none;
+    float: right;
+    margin-right: 2%;
+}
+button.bar{
+    border-radius: 20%;
+    background-color: #fff;
+    color: #666;
+    margin-top: 10px;
+}
 ul.topnav li.topnav-right{
     list-style: none;
     float: right;

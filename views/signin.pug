@@ -20,7 +20,10 @@
                | href="/signup">Sign up</a></li>
             <li class="topnav-right"><a 
                | href="">Sign in</a></li>
-            <li class="bar"><input type="text" placeholder="Search for courses"></li>
+            <form method="post" action="/search">
+                    <button class="bar">Search</button>
+                    <input name="cname" class="bar" type="text" placeholder="Search for courses">
+            </form>
             
         </ul>
     </nav>
