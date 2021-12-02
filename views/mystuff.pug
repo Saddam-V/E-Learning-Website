@@ -9,6 +9,7 @@
 </head>
 <body id="body">
     <script>
+    |// FIREBASE SPECIFIC
     |document.addEventListener("DOMContentLoaded", () => {
     |//    window.post = function(usr) {
     |//    return fetch("/profile", {method: "POST"});
@@ -22,6 +23,8 @@
     <script  src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
     <script type = module>
         |      const firebaseConfig = {
+        |           //PASTE YOUR FIREBASE DETAILS
+        |           //***********************************************
         |          apiKey: "AIzaSyC2HnKPOcJuoQRHLy_qPlQHsEdPOmTcDIQ",
         |          authDomain: "m2learning.firebaseapp.com",
         |          databaseURL: "https://m2learning-default-rtdb.firebaseio.com",
@@ -31,6 +34,7 @@
         |          appId: "1:169205910629:web:dcff87a56454550e244a8c",
         |          measurementId: "G-JTTX230017"
         |        };
+        |           //*************************************************
         |     // Initialize Firebase
         |    firebase.initializeApp(firebaseConfig);
            
