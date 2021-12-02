@@ -84,7 +84,7 @@
                 <label for="username" class="lbl">Username of student </label>
                 <input class="usrinput" type="text" name="studentid" id="usrnmlogin" placeholder="Enter student username">
                 <label for="course" class="lbl"> Enter course name </label>
-                <input class="usrinput" type="text" name="coursename" id="course" placeholder="Enter Course Name">
+                <input class="usrinput" type="text" name="coursename" id="coursename" placeholder="Enter Course Name">
                 <button class="signinbutton">Assign</button>
             </form>
         </div>
@@ -99,12 +99,23 @@
                 <button class="signinbutton">Assign</button>
             </form>
         </div>
-        <div class="col-4" id="user-login">
+        <div class="col-4" id="userlogin">
 
-            <form id="user-login1" action="/removecourse" method="post">
+            <form id="user-login" action="/removecourse" method="post">
                 <h2 class="signh1">Remove Course :-</h2>
+                <label for="username" class="lbl">Username of student </label>
+                <input class="usrinput" type="text" name="usrnm" id="usrnmlogin" placeholder="Enter student username">
                 <label for="username" class="lbl">Enter Course Name</label>
                 <input class="usrinput" type="text" name="coursename" id="usrnmlogin" placeholder="Enter Course Name">
+                <div class="dropdown">
+                    <button class="dropbtn">Category</button>
+                        <div class="dropdown-content">
+                            <label for="html"> Remove For Student</label><br>
+                            <input type="radio" id="cs" name="option" value="student">
+                            <label for="css">Remove From Database</label><br>
+                            <input type="radio" id="sci" name="option" value="database">
+                        </div>
+                </div>
                 <button class="signinbutton">Remove</button>
             </form>
         </div>

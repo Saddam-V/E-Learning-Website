@@ -57,6 +57,42 @@ ul.topnav li a{
     transition: 0.3s 0.3s ease-in;
 }
 
+.dropbtn {
+    background-color:gray;
+    color: white;
+    padding: 6px;
+    font-size: 16px;
+    border: none;
+    box-shadow: 1px 1px 1px black;
+    border-radius: 10%;
+  }
+  
+.dropdown {
+    width: 10%;
+    margin-top: 2%;
+    margin-left: 5%;
+    position: relative;
+    display: inline-block;
+}
+  
+.dropdown-content {
+    text-align: center;
+    display: none;
+    margin: 0;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+  
+.dropdown-content label {
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+
+
 ul.topnav li a:hover{
     background-color:antiquewhite;
     color:chocolate;
@@ -73,6 +109,12 @@ ul.topnav li input[type=text] {
     margin: 3%;
     font-size: 15px;
   }
+
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  .dropdown:hover .dropbtn {background-color:#666;}
 /*############## All Sections    #############*/
 body{
     min-height: 625px;
@@ -109,6 +151,7 @@ body{
 }
 .setbtn .signinbutton{
     border-radius: 20%;
+    margin-left: 75%;
     padding: 1%;
     margin-top: 5%;
     background-color: #666;
@@ -124,7 +167,10 @@ body{
 }
 .setbtn{
     display: flex;
-    justify-content: center;
+    /* text-align: center;
+    align-content: center; */
+    justify-content: space-around;
+    flex-direction: column;
     width: 100%;
 }
 .lbl{

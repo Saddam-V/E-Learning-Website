@@ -77,7 +77,7 @@ const uploadcrs = multer({
 app.use(bodyparser.urlencoded());
 
 app.use(bodyparser.json());
-app.use(bodyparser.text({ type: "text/plain" })); // use this instead
+app.use(bodyparser.text({ type: "text/plain" })); 
 
 //Mongoose specific stuff
 mongoose.connect('mongodb://localhost/UserSignup', {useNewUrlParser: true});
@@ -223,7 +223,7 @@ app.post('/buycourse',(req,res)=>{
   course.find({coursename:req.body.crsname},function(err,docs){
       const fac=docs[0].facultyid;
 
-//********************************************************************************************** */
+
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -247,13 +247,13 @@ app.post('/buycourse',(req,res)=>{
       }
     });
 
-//********************************************************************************************** */
+
 
   });
       res.status(200).render("email.pug");
 });
 });
-
+    //********************************************* Faculty Dashboard functions ************************************************* */
 app.post('/assigncertificate',(req,res,next)=>{
   const usrobj = req.body;
   console.log(usrobj.usrnm);
@@ -305,22 +305,56 @@ app.post('/uploadcourse',(req,res,next)=>{
 
   app.post('/removecourse',(req,res,next)=>{
     const usrobj = req.body
-    let output = {'name': `${yfac}`}
-  
-    console.log(usrobj.cat)
+    let output = {'name': `${y}`}
+    course.find({coursename: usrobj.coursename,facultyid: y}, function(err,docs){
+      console.log(usrobj.usrnm)
+      if(usrobj.option=="student"){
+             usrdtl.find({studentid: usrobj.usrnm},function(err, users) {
+               function getKeyByValue(object, value) {
+                 return Object.keys(object).find(key => object[key] === value);
+               }
 
-    course.deleteOne({ coursename: usrobj.coursename,
-      facultyid: yfac }, function (err) {
-      if (err) return handleError(err);
-      console.log("Error")
-    });
+                 var x = users[0].courseid;
+                 userMapstring = users[0].studentcourses;
+                 courseMapstring = users[0].courseid;
+                 userMap = JSON.parse(userMapstring);
+                 courseMap = JSON.parse(courseMapstring);
+                 var key=getKeyByValue(userMap,usrobj.coursename);
+                 console.log(x);
+                 userMap[key] = " ";
+                 courseMap[key] = " ";
+                 userstring=JSON.stringify(userMap);
+                 coursestring=JSON.stringify(courseMap);
+                 console.log(userMap,courseMap);
+
+                 usrdtl.updateOne({ studentid: usrobj.usrnm}, 
+                   {studentcourses:userstring,
+                    courseid: coursestring}, function (err, docs) {
+                   if (err){
+                       console.log(err)
+                   }
+                   else{
+                       console.log("Updated Docs : ", docs);
+
+                   }
+                 });
+             })
+            }
+            else if(usrobj.option=="database"){
+                course.deleteOne({ coursename: usrobj.coursename,
+                  facultyid: yfac }, function (err) {
+                  if (err) return handleError(err);
+                  console.log("Error")
+                });
+            }
+           })
   
     res.status(200).render('faculty.pug',output);
   
     });
 
   app.post('/assigncourse',(req,res,next)=>{
-    const usrobj = req.body
+    const usrobj = req.body;
     let output = {'name': `${yfac}`}
     var userMapstring;
     var userMap;
@@ -366,6 +400,32 @@ app.post('/uploadcourse',(req,res,next)=>{
               }
               else{
                   console.log("Updated Docs : ", docs);
+                  //*************************************************** TO SEND MAIL ******************************************* */
+                  var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                      user:'m2learning0@gmail.com',
+                      pass:'qmwnebrv102938'
+                    }
+                  });
+                
+                  var mailOptions = {
+                    from: 'm2learning0@gmail.com',
+                    to: usrobj.studentid,
+                    subject: 'Course Assigned Successfully',
+                    text: `Congratulations, the course is successfully assigned to you. Name of course is ` +usrobj.coursename
+                  };
+                
+                  transporter.sendMail(mailOptions, function(error, info){
+                    if(error){
+                      console.log(error);
+                    }else{
+                      console.log('Email sent: ' + info.response);
+                    }
+                  });
+                
+              //********************************************************************************************** */
+
                   
               }
             });
@@ -398,8 +458,8 @@ app.post('/uploadcourseimg',uploadcrs.single('filename1'),(req,res,next)=>{
     }
   });
 })
-
-
+//**************************************************************************************************************** */
+    //*******************************************  End users sign in functions  *************************************************** */
 app.post('/upload',upload.single('filename'),(req,res,next)=>{
   console.log(req.file.path);
   var pic=req.file.path;
@@ -507,7 +567,7 @@ app.post('/signinsupadmin', (req, res)=>{
     }
   });
 });
-
+//******************************************  Get Requests **************************************************** */
 app.get('/', (req, res)=>{
   y="somevalue";
   yfac="somevalue";
@@ -515,7 +575,7 @@ app.get('/', (req, res)=>{
     // fs.writeFileSync("usrnm.txt", " ");
     res.status(200).render('home.pug');
 });
-
+//************PAGE TO CHOOSE YOUR ROLE **************** */
 app.get('/choose',(req,res)=>{
   var temp1;
   var temp2;
@@ -590,6 +650,7 @@ app.get('/midpage',(req,res)=>{
   res.status(200).render("midpage.pug")
 });
 
+//********************************************* Users Profile ************************************************* */
 app.get('/profile', (req, res)=>{
    console.log("name iss")
    console.log(nam);
@@ -690,6 +751,8 @@ app.get('/mystuff',(req,res)=>{
   });
 });
 
+//********************************************************************************************** */
+//********************************************* Categories Options ************************************************* */
 app.get('/computer',(req,res)=>{
   course.find({coursecat:'computer'}, function(err, users) {
     var userMap = {};
@@ -762,7 +825,8 @@ app.get('/other',(req,res)=>{
     res.status(200).render('course.pug',{title:'Courses',products:userMap});
   });
 });
-
+//************************************************************************************************************* */
+//***********************************************Faculty dashboard my courses*********************************************** */
 app.get('/getcourse',(req,res)=>{
   course.find({facultyid:nam}, function(err, users) {
     var userMap = {};
@@ -775,6 +839,7 @@ app.get('/getcourse',(req,res)=>{
     res.status(200).render('course.pug',{title:'Courses',products:userMap});
   });
 });
+    //********************************************************************************************** */
 
 app.get('/categories', (req, res)=>{
   res.status(200).render('categories.pug');
@@ -844,10 +909,41 @@ app.get('/homelogin', (req, res)=>{
   res.status(200).render('homelogin.pug');
 })
 
+//*********************************************** Sign Up Options *********************************************** */
 app.post('/signup', (req, res)=>{
   console.log("post is working")
   const usrdetail = req.body;
   const usrobj = JSON.parse(usrdetail);
+  console.log(usrobj.objopton)
+  if(usrobj.objopton=="faculty"){
+              console.log("inside faculty")
+       
+            var transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                user:'m2learning0@gmail.com',
+                pass:'qmwnebrv102938'
+              }
+            });
+          
+            var mailOptions = {
+              from: 'm2learning0@gmail.com',
+              to: 'mohammedshafin055@gmail.com',
+              subject: 'Request to be a faculty',
+              text: `Someone wants to work on website as a faculty. Email id of person: `+usrobj.objusrnm
+            };
+          
+            transporter.sendMail(mailOptions, function(error, info){
+              if(error){
+                console.log(error);
+              }else{
+                console.log('Email sent: ' + info.response);
+              }
+            });
+          
+   
+  }
+  
   
   UsersName = new user({ name: usrobj.objname,
     username: usrobj.objusrnm,
@@ -867,16 +963,45 @@ app.post('/signup', (req, res)=>{
 
 
   fs.writeFileSync("usrnm.txt", usrobj.objusrnm);
-  nm=usrobj.objname;
+  nm=usrobj.objusrnm;
+  y=usrobj.objusrnm;
 
   const details = user.find({ username: usrobj.objusrnm});
   console.log(details);
 })
+
 app.post('/signupfaculty', (req, res)=>{
   console.log("post is working")
   const usrdetail = req.body;
   const usrobj = JSON.parse(usrdetail);
-  
+
+    console.log("inside faculty")
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user:'m2learning0@gmail.com',
+      pass:'qmwnebrv102938'
+    }
+  });
+
+  var mailOptions = {
+    from: 'm2learning0@gmail.com',
+    to: usrobj.objusrnm,
+    subject: 'You are now a faculty',
+    text: `You are now a faculty on M2Learning. Your Email id: `+usrobj.objusrnm
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+      console.log(error);
+    }else{
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+
+
   UsersName = new faculty({ name: usrobj.objname,
     username: usrobj.objusrnm,
     Email: usrobj.objemailid,
@@ -885,7 +1010,7 @@ app.post('/signupfaculty', (req, res)=>{
     profpic : "null"
     });
   nm=usrobj.objname;
-  yfac=usrobj.objusrnm;
+  y=usrobj.objusrnm;
   // fs.writeFileSync("usrnmfac.txt", usrobj.objusrnm);
   UsersName.save();
   const details = user.find({ username: usrobj.objusrnm});
@@ -911,8 +1036,8 @@ app.post('/signupadmin', (req, res)=>{
   const details = user.find({ username: usrobj.objusrnm});
   console.log(details);
 });
-
-
+//********************************************************************************************** */
+//*********************************************** SEARCH BAR*********************************************** */
 app.post('/search', (req, res)=>{
   const srchobj = req.body;
   console.log(srchobj.cname);
